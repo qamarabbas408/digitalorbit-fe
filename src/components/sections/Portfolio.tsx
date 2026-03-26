@@ -1,285 +1,202 @@
-import React from 'react';
+'use client';
+
+import { useState, useEffect } from 'react';
+
+interface Project {
+  id: string;
+  title: string;
+  subtitle: string;
+  categoryId: string;
+  year: string;
+  technologies: string[];
+  description: string;
+  image: string;
+  featured: boolean;
+  client: string;
+  url: string;
+  status: string;
+}
+
+interface Category {
+  id: string;
+  name: string;
+  filterClass: string;
+}
 
 export default function Portfolio() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeFilter, setActiveFilter] = useState('*');
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const [projectsRes, categoriesRes] = await Promise.all([
+        fetch('/api/portfolio/projects?status=published'),
+        fetch('/api/portfolio/categories')
+      ]);
+      const projectsData = await projectsRes.json();
+      const categoriesData = await categoriesRes.json();
+      setProjects(projectsData);
+      setCategories(categoriesData);
+    } catch (error) {
+      console.error('Failed to fetch portfolio data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getCategoryName = (categoryId: string) => {
+    const category = categories.find(c => c.id === categoryId);
+    return category?.name || categoryId;
+  };
+
+  const getCategoryFilterClass = (categoryId: string) => {
+    const category = categories.find(c => c.id === categoryId);
+    return category?.filterClass || `filter-${categoryId}`;
+  };
+
+  const handleFilterClick = (filter: string) => {
+    setActiveFilter(filter);
+    const buttons = document.querySelectorAll('.portfolio-filters li');
+    buttons.forEach(btn => {
+      if (btn.getAttribute('data-filter') === filter) {
+        btn.classList.add('filter-active');
+      } else {
+        btn.classList.remove('filter-active');
+      }
+    });
+
+    const items = document.querySelectorAll('.isotope-item');
+    items.forEach(item => {
+      if (filter === '*' || item.classList.contains(filter.replace('.', ''))) {
+        (item as HTMLElement).style.display = 'block';
+      } else {
+        (item as HTMLElement).style.display = 'none';
+      }
+    });
+  };
+
+  if (loading) {
+    return (
+      <section id="portfolio" className="portfolio section">
+        <div className="container section-title" data-aos="fade-up">
+          <h2>Portfolio</h2>
+          <p>Loading projects...</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="portfolio" className="portfolio section">
-      {/* Section Title */}
       <div className="container section-title" data-aos="fade-up">
         <h2>Portfolio</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div>{/* End Section Title */}
+        <p>Our Work & Projects</p>
+      </div>
 
       <div className="container" data-aos="fade-up" data-aos-delay="100">
         <div className="isotope-layout" data-default-filter="*" data-layout="fitRows" data-sort="original-order">
           <div className="filters-wrapper" data-aos="fade-up" data-aos-delay="100">
             <ul className="portfolio-filters isotope-filters">
-              <li data-filter="*" className="filter-active">All Projects</li>
-              <li data-filter=".filter-web">Web Design</li>
-              <li data-filter=".filter-mobile">Mobile Apps</li>
-              <li data-filter=".filter-branding">Branding</li>
-              <li data-filter=".filter-ui">UI/UX</li>
+              <li 
+                data-filter="*" 
+                className={activeFilter === '*' ? 'filter-active' : ''}
+                onClick={() => handleFilterClick('*')}
+              >
+                All Projects
+              </li>
+              {categories.map((category) => (
+                <li 
+                  key={category.id}
+                  data-filter={`.${category.filterClass}`}
+                  className={activeFilter === `.${category.filterClass}` ? 'filter-active' : ''}
+                  onClick={() => handleFilterClick(`.${category.filterClass}`)}
+                >
+                  {category.name}
+                </li>
+              ))}
             </ul>
           </div>
 
           <div className="row g-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-web">
-              <div className="project-card">
-                <div className="image-wrapper">
-                  <img src="/assets/img/portfolio/portfolio-2.webp" alt="Project showcase" className="img-fluid" loading="lazy" />
-                  <div className="hover-overlay">
-                    <div className="overlay-actions">
-                      <a href="/assets/img/portfolio/portfolio-2.webp" className="glightbox action-btn" data-gallery="portfolio">
-                        <i className="bi bi-eye"></i>
-                      </a>
-                      <a href="#" className="action-btn">
-                        <i className="bi bi-link-45deg"></i>
-                      </a>
+            {projects.map((project) => (
+              <div 
+                key={project.id} 
+                className={`col-lg-4 col-md-6 portfolio-item isotope-item ${getCategoryFilterClass(project.categoryId)}`}
+              >
+                <div className={`project-card ${project.featured ? 'featured' : ''}`}>
+                  <div className="image-wrapper">
+                    <img 
+                      src={project.image || '/assets/img/portfolio/portfolio-1.webp'} 
+                      alt={project.title} 
+                      className="img-fluid" 
+                      loading="lazy" 
+                    />
+                    <div className="hover-overlay">
+                      <div className="overlay-actions">
+                        <a 
+                          href={project.image || '/assets/img/portfolio/portfolio-1.webp'} 
+                          className="glightbox action-btn" 
+                          data-gallery="portfolio"
+                        >
+                          <i className="bi bi-eye"></i>
+                        </a>
+                        <a href={project.url} className="action-btn" target="_blank" rel="noopener noreferrer">
+                          <i className="bi bi-link-45deg"></i>
+                        </a>
+                      </div>
                     </div>
+                    <span className="category-badge">{getCategoryName(project.categoryId)}</span>
+                    {project.featured && (
+                      <span className="featured-badge">
+                        <i className="bi bi-star-fill"></i> Featured
+                      </span>
+                    )}
                   </div>
-                  <span className="category-badge">Web Design</span>
-                </div>
-                <div className="project-info">
-                  <h3>Corporate Dashboard System</h3>
-                  <p>Pellentesque habitant morbi tristique senectus et netus.</p>
-                  <div className="project-meta">
-                    <div className="tech-tags">
-                      <span>Angular</span>
-                      <span>Python</span>
+                  <div className="project-info">
+                    <h3>{project.title}</h3>
+                    {project.subtitle && <p className="project-subtitle">{project.subtitle}</p>}
+                    <p className="project-description">{project.description}</p>
+                    <div className="project-meta">
+                      <div className="tech-tags">
+                        {project.technologies?.map((tech, index) => (
+                          <span key={index}>{tech}</span>
+                        ))}
+                      </div>
+                      <span className="year">{project.year}</span>
                     </div>
-                    <span className="year">2024</span>
-                  </div>
-                </div>
-              </div>
-            </div>{/* End Portfolio Item */}
-
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-mobile">
-              <div className="project-card featured">
-                <div className="image-wrapper">
-                  <img src="/assets/img/portfolio/portfolio-4.webp" alt="Project showcase" className="img-fluid" loading="lazy" />
-                  <div className="hover-overlay">
-                    <div className="overlay-actions">
-                      <a href="/assets/img/portfolio/portfolio-4.webp" className="glightbox action-btn" data-gallery="portfolio">
-                        <i className="bi bi-eye"></i>
-                      </a>
-                      <a href="#" className="action-btn">
-                        <i className="bi bi-link-45deg"></i>
-                      </a>
-                    </div>
-                  </div>
-                  <span className="category-badge">Mobile Apps</span>
-                  <span className="featured-badge"><i className="bi bi-star-fill"></i> Featured</span>
-                </div>
-                <div className="project-info">
-                  <h3>Smart Finance Application</h3>
-                  <p>Maecenas tempus tellus eget condimentum rhoncus.</p>
-                  <div className="project-meta">
-                    <div className="tech-tags">
-                      <span>Swift</span>
-                      <span>Kotlin</span>
-                    </div>
-                    <span className="year">2024</span>
                   </div>
                 </div>
               </div>
-            </div>{/* End Portfolio Item */}
-
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
-              <div className="project-card">
-                <div className="image-wrapper">
-                  <img src="/assets/img/portfolio/portfolio-6.webp" alt="Project showcase" className="img-fluid" loading="lazy" />
-                  <div className="hover-overlay">
-                    <div className="overlay-actions">
-                      <a href="/assets/img/portfolio/portfolio-6.webp" className="glightbox action-btn" data-gallery="portfolio">
-                        <i className="bi bi-eye"></i>
-                      </a>
-                      <a href="#" className="action-btn">
-                        <i className="bi bi-link-45deg"></i>
-                      </a>
-                    </div>
-                  </div>
-                  <span className="category-badge">Branding</span>
-                </div>
-                <div className="project-info">
-                  <h3>Fashion Label Identity</h3>
-                  <p>Donec quam felis ultricies nec pellentesque pretium.</p>
-                  <div className="project-meta">
-                    <div className="tech-tags">
-                      <span>Photoshop</span>
-                      <span>Illustrator</span>
-                    </div>
-                    <span className="year">2023</span>
-                  </div>
-                </div>
-              </div>
-            </div>{/* End Portfolio Item */}
-
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-ui">
-              <div className="project-card">
-                <div className="image-wrapper">
-                  <img src="/assets/img/portfolio/portfolio-8.webp" alt="Project showcase" className="img-fluid" loading="lazy" />
-                  <div className="hover-overlay">
-                    <div className="overlay-actions">
-                      <a href="/assets/img/portfolio/portfolio-8.webp" className="glightbox action-btn" data-gallery="portfolio">
-                        <i className="bi bi-eye"></i>
-                      </a>
-                      <a href="#" className="action-btn">
-                        <i className="bi bi-link-45deg"></i>
-                      </a>
-                    </div>
-                  </div>
-                  <span className="category-badge">UI/UX</span>
-                </div>
-                <div className="project-info">
-                  <h3>E-Learning Platform Design</h3>
-                  <p>Aenean leo ligula porttitor eu consequat vitae.</p>
-                  <div className="project-meta">
-                    <div className="tech-tags">
-                      <span>Figma</span>
-                      <span>Principle</span>
-                    </div>
-                    <span className="year">2024</span>
-                  </div>
-                </div>
-              </div>
-            </div>{/* End Portfolio Item */}
-
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-web">
-              <div className="project-card">
-                <div className="image-wrapper">
-                  <img src="/assets/img/portfolio/portfolio-1.webp" alt="Project showcase" className="img-fluid" loading="lazy" />
-                  <div className="hover-overlay">
-                    <div className="overlay-actions">
-                      <a href="/assets/img/portfolio/portfolio-1.webp" className="glightbox action-btn" data-gallery="portfolio">
-                        <i className="bi bi-eye"></i>
-                      </a>
-                      <a href="#" className="action-btn">
-                        <i className="bi bi-link-45deg"></i>
-                      </a>
-                    </div>
-                  </div>
-                  <span className="category-badge">Web Design</span>
-                </div>
-                <div className="project-info">
-                  <h3>Social Media Platform</h3>
-                  <p>Vivamus elementum semper nisi quisque rutrum.</p>
-                  <div className="project-meta">
-                    <div className="tech-tags">
-                      <span>React</span>
-                      <span>MongoDB</span>
-                    </div>
-                    <span className="year">2023</span>
-                  </div>
-                </div>
-              </div>
-            </div>{/* End Portfolio Item */}
-
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-mobile">
-              <div className="project-card">
-                <div className="image-wrapper">
-                  <img src="/assets/img/portfolio/portfolio-3.webp" alt="Project showcase" className="img-fluid" loading="lazy" />
-                  <div className="hover-overlay">
-                    <div className="overlay-actions">
-                      <a href="/assets/img/portfolio/portfolio-3.webp" className="glightbox action-btn" data-gallery="portfolio">
-                        <i className="bi bi-eye"></i>
-                      </a>
-                      <a href="#" className="action-btn">
-                        <i className="bi bi-link-45deg"></i>
-                      </a>
-                    </div>
-                  </div>
-                  <span className="category-badge">Mobile Apps</span>
-                </div>
-                <div className="project-info">
-                  <h3>Health Monitoring App</h3>
-                  <p>Nullam quis ante etiam sit amet orci eget.</p>
-                  <div className="project-meta">
-                    <div className="tech-tags">
-                      <span>Flutter</span>
-                      <span>AWS</span>
-                    </div>
-                    <span className="year">2024</span>
-                  </div>
-                </div>
-              </div>
-            </div>{/* End Portfolio Item */}
-
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-ui">
-              <div className="project-card featured">
-                <div className="image-wrapper">
-                  <img src="/assets/img/portfolio/portfolio-7.webp" alt="Project showcase" className="img-fluid" loading="lazy" />
-                  <div className="hover-overlay">
-                    <div className="overlay-actions">
-                      <a href="/assets/img/portfolio/portfolio-7.webp" className="glightbox action-btn" data-gallery="portfolio">
-                        <i className="bi bi-eye"></i>
-                      </a>
-                      <a href="#" className="action-btn">
-                        <i className="bi bi-link-45deg"></i>
-                      </a>
-                    </div>
-                  </div>
-                  <span className="category-badge">UI/UX</span>
-                  <span className="featured-badge"><i className="bi bi-star-fill"></i> Featured</span>
-                </div>
-                <div className="project-info">
-                  <h3>Banking Dashboard Redesign</h3>
-                  <p>Curabitur ullamcorper ultricies nisi nam eget dui.</p>
-                  <div className="project-meta">
-                    <div className="tech-tags">
-                      <span>Sketch</span>
-                      <span>Zeplin</span>
-                    </div>
-                    <span className="year">2024</span>
-                  </div>
-                </div>
-              </div>
-            </div>{/* End Portfolio Item */}
-
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
-              <div className="project-card">
-                <div className="image-wrapper">
-                  <img src="/assets/img/portfolio/portfolio-9.webp" alt="Project showcase" className="img-fluid" loading="lazy" />
-                  <div className="hover-overlay">
-                    <div className="overlay-actions">
-                      <a href="/assets/img/portfolio/portfolio-9.webp" className="glightbox action-btn" data-gallery="portfolio">
-                        <i className="bi bi-eye"></i>
-                      </a>
-                      <a href="#" className="action-btn">
-                        <i className="bi bi-link-45deg"></i>
-                      </a>
-                    </div>
-                  </div>
-                  <span className="category-badge">Branding</span>
-                </div>
-                <div className="project-info">
-                  <h3>Tech Company Rebranding</h3>
-                  <p>Etiam rhoncus maecenas tempus tellus condimentum.</p>
-                  <div className="project-meta">
-                    <div className="tech-tags">
-                      <span>InDesign</span>
-                      <span>Motion</span>
-                    </div>
-                    <span className="year">2023</span>
-                  </div>
-                </div>
-              </div>
-            </div>{/* End Portfolio Item */}
-          </div>{/* End Portfolio Container */}
-        </div>
-
-        <div className="cta-section" data-aos="zoom-in" data-aos-delay="300">
-          <div className="cta-content">
-            <span className="cta-label"><i className="bi bi-lightning-charge-fill"></i> Ready to Start?</span>
-            <h3>Let&apos;s Create Something Amazing Together</h3>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam.</p>
-            <div className="cta-buttons">
-              <a href="#contact" className="btn-cta-primary">Launch Your Project <i className="bi bi-arrow-right"></i></a>
-              <a href="#services" className="btn-cta-secondary"><i className="bi bi-play-circle"></i> Explore Services</a>
-            </div>
+            ))}
           </div>
-          <div className="cta-decoration">
-            <div className="floating-shape shape-1"></div>
-            <div className="floating-shape shape-2"></div>
-            <div className="floating-shape shape-3"></div>
+
+          <div className="cta-section" data-aos="zoom-in" data-aos-delay="300">
+            <div className="cta-content">
+              <span className="cta-label">
+                <i className="bi bi-lightning-charge-fill"></i> Ready to Start?
+              </span>
+              <h3>Let&apos;s Create Something Amazing Together</h3>
+              <p>Have a project in mind? We&apos;d love to hear about it and bring your vision to life.</p>
+              <div className="cta-buttons">
+                <a href="#contact" className="btn-cta-primary">
+                  Start Your Project <i className="bi bi-arrow-right"></i>
+                </a>
+                <a href="#services" className="btn-cta-secondary">
+                  <i className="bi bi-play-circle"></i> Explore Services
+                </a>
+              </div>
+            </div>
+            <div className="cta-decoration">
+              <div className="floating-shape shape-1"></div>
+              <div className="floating-shape shape-2"></div>
+              <div className="floating-shape shape-3"></div>
+            </div>
           </div>
         </div>
       </div>

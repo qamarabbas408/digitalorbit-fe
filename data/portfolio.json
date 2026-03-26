@@ -1,0 +1,146 @@
+{
+  "categories": [
+    {
+      "id": "web-design",
+      "name": "Web Design",
+      "slug": "web-design",
+      "filterClass": "filter-web",
+      "icon": "bi-globe"
+    },
+    {
+      "id": "mobile-design",
+      "name": "Mobile Design",
+      "slug": "mobile-design",
+      "filterClass": "filter-mobile",
+      "icon": "bi-phone"
+    },
+    {
+      "id": "branding",
+      "name": "Branding",
+      "slug": "branding",
+      "filterClass": "filter-branding",
+      "icon": "bi-palette"
+    },
+    {
+      "id": "ui-ux",
+      "name": "UI/UX",
+      "slug": "ui-ux",
+      "filterClass": "filter-ui",
+      "icon": "bi-ui-checks"
+    }
+  ],
+  "projects": [
+    {
+      "id": "1",
+      "title": "BookNStay",
+      "subtitle": "Hotel & Event Booking Platform",
+      "categoryId": "web-design",
+      "year": "2024-2025",
+      "technologies": ["Laravel", "ReactJS", "MySQL", "REST APIs"],
+      "description": "Developed a full-stack web application for the Gilgit Baltistan hospitality industry, enabling users to book hotels and events through a centralized platform. The system includes booking management, user authentication, and admin dashboards for efficient operations.",
+      "image": "/assets/img/portfolio/portfolio-1.webp",
+      "gallery": [],
+      "featured": true,
+      "client": "Hospitality Industry",
+      "url": "#",
+      "status": "published",
+      "createdAt": "2024-01-15"
+    },
+    {
+      "id": "2",
+      "title": "eSchool ERP",
+      "subtitle": "LMS + School Management System",
+      "categoryId": "web-design",
+      "year": "2024-2025",
+      "technologies": ["Laravel", "ReactJS", "MySQL", "REST APIs"],
+      "description": "Built a comprehensive ERP system combining LMS features with school management functionalities. The platform supports course management, student and teacher workflows, role-based access, and performance tracking dashboards.",
+      "image": "/assets/img/portfolio/portfolio-2.webp",
+      "gallery": [],
+      "featured": true,
+      "client": "Education Sector",
+      "url": "#",
+      "status": "published",
+      "createdAt": "2024-02-20"
+    },
+    {
+      "id": "3",
+      "title": "JPay",
+      "subtitle": "HR Management System",
+      "categoryId": "web-design",
+      "year": "2023-2024",
+      "technologies": ["ReactJS", "JavaScript", "Axios", "REST APIs"],
+      "description": "Developed a web-based HR system for managing companies and employees, including dashboards, employee data handling, and workflows.",
+      "image": "/assets/img/portfolio/portfolio-4.webp",
+      "gallery": [],
+      "featured": false,
+      "client": "Corporate",
+      "url": "#",
+      "status": "published",
+      "createdAt": "2023-06-10"
+    },
+    {
+      "id": "4",
+      "title": "SpeedyHR",
+      "subtitle": "Advanced HR Platform",
+      "categoryId": "web-design",
+      "year": "2023-2024",
+      "technologies": ["ReactJS", "Redux", "JavaScript", "REST APIs"],
+      "description": "Designed an advanced HR management system enabling organizations to manage employees, payroll processes, and internal workflows with improved efficiency.",
+      "image": "/assets/img/portfolio/portfolio-5.webp",
+      "gallery": [],
+      "featured": false,
+      "client": "HR Departments",
+      "url": "#",
+      "status": "published",
+      "createdAt": "2023-08-15"
+    },
+    {
+      "id": "5",
+      "title": "CloudMunshi",
+      "subtitle": "eCommerce Integration Platform",
+      "categoryId": "web-design",
+      "year": "2023-2024",
+      "technologies": ["ReactJS", "APIs Integration", "JavaScript"],
+      "description": "Built a platform integrating multiple eCommerce stores into a unified system, allowing centralized monitoring and management of business operations.",
+      "image": "/assets/img/portfolio/portfolio-6.webp",
+      "gallery": [],
+      "featured": false,
+      "client": "eCommerce Businesses",
+      "url": "#",
+      "status": "published",
+      "createdAt": "2023-09-01"
+    },
+    {
+      "id": "6",
+      "title": "CloudInstaller",
+      "subtitle": "Build Distribution Platform",
+      "categoryId": "web-design",
+      "year": "2023",
+      "technologies": ["ReactJS", "JavaScript", "File Management"],
+      "description": "Developed a web-based portal for sharing mobile application builds (IPA/APK) among teams and testers, enabling efficient version control and internal distribution.",
+      "image": "/assets/img/portfolio/portfolio-7.webp",
+      "gallery": [],
+      "featured": false,
+      "client": "Development Teams",
+      "url": "#",
+      "status": "published",
+      "createdAt": "2023-04-20"
+    },
+    {
+      "id": "7",
+      "title": "Zendesk Clone",
+      "subtitle": "Web Chat Application",
+      "categoryId": "web-design",
+      "year": "2023",
+      "technologies": ["ReactJS", "JavaScript", "Real-time Communication"],
+      "description": "Developed a real-time web chat application with a user-friendly interface, enabling seamless communication and interaction between users.",
+      "image": "/assets/img/portfolio/portfolio-8.webp",
+      "gallery": [],
+      "featured": false,
+      "client": "Support Teams",
+      "url": "#",
+      "status": "published",
+      "createdAt": "2023-03-10"
+    }
+  ]
+}
