@@ -22,14 +22,14 @@ export default function Contact() {
                 <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.</p>
               </div>
 
-              <div className="contact-methods">
+                  <div className="contact-methods">
                 <div className="method-item">
                   <div className="method-icon">
                     <i className="bi bi-envelope-paper-fill"></i>
                   </div>
                   <div className="method-details">
                     <span className="method-label">Email Us</span>
-                    <a href="mailto:support@example.com">support@example.com</a>
+                    <a href="mailto:support@digitalorbit.org">support@digitalorbit.org</a>
                   </div>
                 </div>
 
@@ -39,17 +39,7 @@ export default function Contact() {
                   </div>
                   <div className="method-details">
                     <span className="method-label">Call Us</span>
-                    <a href="tel:+15558901234">+1 (555) 890-1234</a>
-                  </div>
-                </div>
-
-                <div className="method-item">
-                  <div className="method-icon">
-                    <i className="bi bi-pin-map-fill"></i>
-                  </div>
-                  <div className="method-details">
-                    <span className="method-label">Visit Us</span>
-                    <span>1847 Oak Avenue, Portland, OR 97201</span>
+                    <a href="tel:+923111588908">+92 311 1588908</a>
                   </div>
                 </div>
               </div>

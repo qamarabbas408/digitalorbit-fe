@@ -7,11 +7,10 @@ export default function Footer() {
         <div className="row gy-4">
           <div className="col-lg-3 col-md-6 footer-info">
             <Link href="/" className="logo d-flex align-items-center mb-4">
-              <span className="sitename">Orbit</span>
+              <span className="sitename">DigitalOrbit</span>
             </Link>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit
-              tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
+              Building innovative digital solutions for your business. We specialize in web development, mobile applications, and custom software.
             </p>
             <div className="social-links d-flex mt-4">
               <a href="#" aria-label="Twitter">
@@ -33,49 +32,25 @@ export default function Footer() {
           </div>
 
           <div className="col-lg-2 col-md-6 footer-links">
-            <h4>Shop</h4>
+            <h4>Services</h4>
             <ul>
               <li>
-                <a href="#">New Arrivals</a>
+                <a href="/#services">Web Development</a>
               </li>
               <li>
-                <a href="#">Best Sellers</a>
+                <a href="/#services">Mobile Apps</a>
               </li>
               <li>
-                <a href="#">Sale Items</a>
+                <a href="/#services">UI/UX Design</a>
               </li>
               <li>
-                <a href="#">Men&apos;s Collection</a>
+                <a href="/#services">Custom Software</a>
               </li>
               <li>
-                <a href="#">Women&apos;s Collection</a>
+                <a href="/#services">API Integration</a>
               </li>
               <li>
-                <a href="#">Accessories</a>
-              </li>
-            </ul>
-          </div>
-
-          <div className="col-lg-2 col-md-6 footer-links">
-            <h4>Customer Service</h4>
-            <ul>
-              <li>
-                <a href="#">Contact Us</a>
-              </li>
-              <li>
-                <a href="#">FAQs</a>
-              </li>
-              <li>
-                <a href="#">Shipping &amp; Returns</a>
-              </li>
-              <li>
-                <a href="#">Size Guide</a>
-              </li>
-              <li>
-                <a href="#">Track Order</a>
-              </li>
-              <li>
-                <a href="#">Gift Cards</a>
+                <a href="/#services">Cloud Solutions</a>
               </li>
             </ul>
           </div>
@@ -84,22 +59,22 @@ export default function Footer() {
             <h4>Company</h4>
             <ul>
               <li>
-                <a href="#">About Us</a>
+                <a href="/#about">About Us</a>
               </li>
               <li>
-                <a href="#">Careers</a>
+                <a href="/#portfolio">Portfolio</a>
               </li>
               <li>
-                <a href="#">Blog</a>
+                <a href="/#team">Our Team</a>
               </li>
               <li>
-                <a href="#">Sustainability</a>
+                <a href="/privacy">Privacy Policy</a>
               </li>
               <li>
-                <a href="#">Affiliate Program</a>
+                <a href="/terms">Terms of Service</a>
               </li>
               <li>
-                <a href="#">Store Locator</a>
+                <a href="/#contact">Contact</a>
               </li>
             </ul>
           </div>
@@ -108,8 +83,7 @@ export default function Footer() {
             <div className="footer-newsletter">
               <h4>Stay Updated</h4>
               <p>
-                Subscribe to our newsletter for exclusive offers, new arrivals,
-                and fashion tips.
+                Subscribe to our newsletter for the latest tech insights, project updates, and industry news.
               </p>
               <form action="/api/newsletter" method="post" className="php-email-form">
                 <div className="position-relative">
@@ -140,19 +114,11 @@ export default function Footer() {
             <div className="copyright">
               <p>
                 © <span>Copyright</span>{" "}
-                <strong className="sitename">Orbit</strong>. All Rights
+                <strong className="sitename">DigitalOrbit</strong>. All Rights
                 Reserved.
               </p>
             </div>
-            <div className="credits">
-              {/* All the links in the footer should remain intact. */}
-              {/* You can delete the links only if you've purchased the pro version. */}
-              {/* Licensing information: https://bootstrapmade.com/license/ */}
-              {/* Purchase the pro version with working PHP/AJAX contact form: [buy-url] */}
-              Designed by{" "}
-              <a href="https://bootstrapmade.com/">BootstrapMade</a> |{" "}
-              <a href="https://bootstrapmade.com/tools/">DevTools</a>
-            </div>
+           
           </div>
           <div className="col-md-6 order-1 order-md-2">
             <div className="legal-links">

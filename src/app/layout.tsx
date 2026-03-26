@@ -5,9 +5,9 @@ import Footer from "@/components/Footer";
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "Orbit - Digital Orbits",
-  description: "Crafting Exceptional Digital Experiences",
-  keywords: "digital, orbits, experiences", // Add your keywords here
+  title: "DigitalOrbit - Crafting Exceptional Digital Experiences",
+  description: "DigitalOrbit - Building innovative web and mobile solutions",
+  keywords: "digital, web development, mobile apps, software solutions",
 };
 
 export default function RootLayout({

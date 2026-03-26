@@ -100,7 +100,7 @@ export default function AdminLayout({
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
             <i className="bi bi-hexagon text-lg"></i>
           </div>
-          <span className="text-lg font-bold">Orbit Admin</span>
+          <span className="text-lg font-bold">DigitalOrbit Admin</span>
         </div>
         
         <nav className="flex-1 py-4">

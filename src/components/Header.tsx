@@ -7,7 +7,7 @@ export default function Header() {
         <Link href="/" className="logo d-flex align-items-center me-auto me-xl-0">
           {/* Uncomment the line below if you also wish to use an image logo */}
           {/* <img src="/assets/img/logo.webp" alt=""> */}
-          <h1 className="sitename">Orbit</h1>
+          <h1 className="sitename">DigitalOrbit</h1>
           <span>.</span>
         </Link>
 

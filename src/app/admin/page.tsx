@@ -57,7 +57,7 @@ export default function AdminDashboard() {
     <div className="p-6">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600">Welcome to the Orbit Portfolio Management System</p>
+        <p className="text-gray-600">Welcome to the DigitalOrbit Portfolio Management System</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
