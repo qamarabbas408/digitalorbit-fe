@@ -1,32 +1,34 @@
+'use client';
+
 import Link from "next/link";
+import { useSettings } from "@/context/SettingsContext";
 
 export default function Footer() {
+  const { settings, loading } = useSettings();
+
   return (
     <footer id="footer" className="footer light-background">
       <div className="container footer-top">
         <div className="row gy-4">
           <div className="col-lg-3 col-md-6 footer-info">
             <Link href="/" className="logo d-flex align-items-center mb-4">
-              <span className="sitename">DigitalOrbit</span>
+              <span className="sitename">{loading ? '...' : settings.company_name}</span>
             </Link>
             <p>
-              Building innovative digital solutions for your business. We specialize in web development, mobile applications, and custom software.
+              {loading ? 'Loading...' : settings.company_description}
             </p>
             <div className="social-links d-flex mt-4">
-              <a href="#" aria-label="Twitter">
-                <i className="bi bi-twitter-x"></i>
-              </a>
-              <a href="#" aria-label="Facebook">
+              <a href={settings.facebook_url} aria-label="Facebook">
                 <i className="bi bi-facebook"></i>
               </a>
-              <a href="#" aria-label="Instagram">
+              <a href={settings.twitter_url} aria-label="Twitter">
+                <i className="bi bi-twitter-x"></i>
+              </a>
+              <a href={settings.instagram_url} aria-label="Instagram">
                 <i className="bi bi-instagram"></i>
               </a>
-              <a href="#" aria-label="TikTok">
-                <i className="bi bi-tiktok"></i>
-              </a>
-              <a href="#" aria-label="Pinterest">
-                <i className="bi bi-pinterest"></i>
+              <a href={settings.linkedin_url} aria-label="LinkedIn">
+                <i className="bi bi-linkedin"></i>
               </a>
             </div>
           </div>
@@ -114,17 +116,15 @@ export default function Footer() {
             <div className="copyright">
               <p>
                 © <span>Copyright</span>{" "}
-                <strong className="sitename">DigitalOrbit</strong>. All Rights
+                <strong className="sitename">{loading ? '...' : settings.company_name}</strong>. All Rights
                 Reserved.
               </p>
             </div>
-           
           </div>
           <div className="col-md-6 order-1 order-md-2">
             <div className="legal-links">
-              <a href="#">Terms of Service</a>
-              <a href="#">Privacy Policy</a>
-              <a href="#">Cookies</a>
+              <a href="/terms">Terms of Service</a>
+              <a href="/privacy">Privacy Policy</a>
             </div>
           </div>
         </div>

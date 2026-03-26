@@ -1,13 +1,16 @@
-import React from 'react';
+'use client';
+
+import { useSettings } from "@/context/SettingsContext";
 
 export default function Contact() {
+  const { settings, loading } = useSettings();
+
   return (
     <section id="contact" className="contact section">
-      {/* Section Title */}
       <div className="container section-title" data-aos="fade-up">
         <h2>Contact</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div>{/* End Section Title */}
+        <p>Get in touch with us for your next project</p>
+      </div>
 
       <div className="container" data-aos="fade-up" data-aos-delay="100">
         <div className="row gy-5 align-items-stretch">
@@ -18,18 +21,20 @@ export default function Contact() {
                   <i className="bi bi-chat-dots-fill"></i>
                   Get In Touch
                 </span>
-                <h3>Let&apos;s Bring Your Vision to Life</h3>
-                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.</p>
+                <h3>Let&apos;s Build Something Amazing</h3>
+                <p>Ready to transform your ideas into reality? We&apos;d love to hear from you.</p>
               </div>
 
-                  <div className="contact-methods">
+              <div className="contact-methods">
                 <div className="method-item">
                   <div className="method-icon">
                     <i className="bi bi-envelope-paper-fill"></i>
                   </div>
                   <div className="method-details">
                     <span className="method-label">Email Us</span>
-                    <a href="mailto:support@digitalorbit.org">support@digitalorbit.org</a>
+                    <a href={`mailto:${loading ? '' : settings.company_email}`}>
+                      {loading ? 'Loading...' : settings.company_email}
+                    </a>
                   </div>
                 </div>
 
@@ -39,9 +44,23 @@ export default function Contact() {
                   </div>
                   <div className="method-details">
                     <span className="method-label">Call Us</span>
-                    <a href="tel:+923111588908">+92 311 1588908</a>
+                    <a href={`tel:${loading ? '' : settings.company_phone.replace(/\s/g, '')}`}>
+                      {loading ? 'Loading...' : settings.company_phone}
+                    </a>
                   </div>
                 </div>
+
+                {settings.company_address && (
+                  <div className="method-item">
+                    <div className="method-icon">
+                      <i className="bi bi-pin-map-fill"></i>
+                    </div>
+                    <div className="method-details">
+                      <span className="method-label">Location</span>
+                      <span>{settings.company_address}</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="stats-strip">
@@ -62,14 +81,14 @@ export default function Contact() {
               <div className="social-connect">
                 <span>Follow Us</span>
                 <div className="social-icons">
-                  <a href="#" aria-label="Facebook"><i className="bi bi-facebook"></i></a>
-                  <a href="#" aria-label="Twitter"><i className="bi bi-twitter-x"></i></a>
-                  <a href="#" aria-label="LinkedIn"><i className="bi bi-linkedin"></i></a>
-                  <a href="#" aria-label="Instagram"><i className="bi bi-instagram"></i></a>
+                  <a href={settings.facebook_url} aria-label="Facebook"><i className="bi bi-facebook"></i></a>
+                  <a href={settings.twitter_url} aria-label="Twitter"><i className="bi bi-twitter-x"></i></a>
+                  <a href={settings.linkedin_url} aria-label="LinkedIn"><i className="bi bi-linkedin"></i></a>
+                  <a href={settings.instagram_url} aria-label="Instagram"><i className="bi bi-instagram"></i></a>
                 </div>
               </div>
             </div>
-          </div>{/* End Info Panel */}
+          </div>
 
           <div className="col-lg-7" data-aos="fade-left" data-aos-delay="300">
             <div className="form-card">
@@ -143,7 +162,7 @@ export default function Contact() {
                 </div>
               </form>
             </div>
-          </div>{/* End Form Card */}
+          </div>
         </div>
       </div>
     </section>

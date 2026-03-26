@@ -1,6 +1,10 @@
-import React from 'react';
+'use client';
+
+import { useSettings } from "@/context/SettingsContext";
 
 export default function About() {
+  const { settings, loading } = useSettings();
+
   return (
     <section id="about" className="about section">
       <div className="container" data-aos="fade-up" data-aos-delay="100">
@@ -63,8 +67,8 @@ export default function About() {
                 </div>
               </div>
               <div className="action-buttons">
-                <a href="#" className="btn btn-primary-custom">
-                  Discover More <i className="bi bi-arrow-right"></i>
+                <a href="#portfolio" className="btn btn-primary-custom">
+                  View Our Work <i className="bi bi-arrow-right"></i>
                 </a>
                 <div className="contact-info">
                   <div className="icon-box">
@@ -72,7 +76,9 @@ export default function About() {
                   </div>
                   <div className="text">
                     <span>Call Us Today</span>
-                    <a href="tel:+15551234567">+1 (555) 123-4567</a>
+                    <a href={`tel:${loading ? '' : settings.company_phone.replace(/\s/g, '')}`}>
+                      {loading ? 'Loading...' : settings.company_phone}
+                    </a>
                   </div>
                 </div>
               </div>

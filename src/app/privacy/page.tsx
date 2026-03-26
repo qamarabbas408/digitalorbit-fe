@@ -1,11 +1,14 @@
-import React from 'react';
+'use client';
+
+import { useSettings } from "@/context/SettingsContext";
 
 export default function PrivacyPage() {
+  const { settings, loading } = useSettings();
+
   return (
     <section id="privacy" className="privacy section">
       <div className="container" data-aos="fade-up">
         <div className="row g-5">
-          {/* Sidebar Navigation */}
           <div className="col-lg-3" data-aos="fade-right" data-aos-delay="100">
             <div className="sidebar-nav">
               <div className="nav-header">
@@ -24,34 +27,33 @@ export default function PrivacyPage() {
               </ul>
               <div className="effective-date">
                 <i className="bi bi-calendar3"></i>
-                <span>Effective: March 15, 2025</span>
+                <span>Effective: March 2026</span>
               </div>
             </div>
-          </div>{/* End Sidebar Navigation */}
+          </div>
 
-          {/* Main Content */}
           <div className="col-lg-9" data-aos="fade-left" data-aos-delay="200">
             <div className="policy-intro-card" data-aos="zoom-in" data-aos-delay="250">
               <div className="intro-icon">
                 <i className="bi bi-info-circle"></i>
               </div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+              <p>Your privacy is important to us. This policy explains how we collect, use, and protect your information when you use our services.</p>
             </div>
 
             <div className="policy-section" id="intro" data-aos="fade-up" data-aos-delay="100">
               <div className="section-number">01</div>
               <div className="section-content">
                 <h2>Introduction</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-                <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae. Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.</p>
+                <p>This Privacy Policy explains how {settings.company_name || 'we'} (&quot;Company&quot;, &quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) collects, uses, discloses, and safeguards information when you visit our website or use our services.</p>
+                <p>By using our services, you agree to the collection and use of information in accordance with this policy.</p>
               </div>
-            </div>{/* End Policy Section */}
+            </div>
 
             <div className="policy-section" id="collection" data-aos="fade-up" data-aos-delay="150">
               <div className="section-number">02</div>
               <div className="section-content">
                 <h2>Information We Collect</h2>
-                <p>Pellentesque in ipsum id orci porta dapibus. Curabitur aliquet quam id dui posuere blandit.</p>
+                <p>We may collect the following types of information:</p>
                 <div className="info-cards">
                   <div className="info-card">
                     <div className="card-icon">
@@ -79,13 +81,13 @@ export default function PrivacyPage() {
                   </div>
                 </div>
               </div>
-            </div>{/* End Policy Section */}
+            </div>
 
             <div className="policy-section" id="usage" data-aos="fade-up" data-aos-delay="200">
               <div className="section-number">03</div>
               <div className="section-content">
                 <h2>How We Use Your Information</h2>
-                <p>Donec sollicitudin molestie malesuada. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.</p>
+                <p>We use the information we collect for the following purposes:</p>
                 <div className="usage-grid">
                   <div className="usage-item">
                     <i className="bi bi-stars"></i>
@@ -113,20 +115,20 @@ export default function PrivacyPage() {
                   </div>
                 </div>
               </div>
-            </div>{/* End Policy Section */}
+            </div>
 
             <div className="policy-section" id="sharing" data-aos="fade-up" data-aos-delay="250">
               <div className="section-number">04</div>
               <div className="section-content">
                 <h2>Information Sharing and Disclosure</h2>
-                <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Curabitur arcu erat, accumsan id imperdiet et.</p>
+                <p>We do not sell your personal information. We may share information in the following circumstances:</p>
                 <div className="sharing-block">
                   <h4><i className="bi bi-hand-thumbs-up"></i> With Your Permission</h4>
-                  <p>Nulla quis lorem ut libero malesuada feugiat. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.</p>
+                  <p>We may share your information if you explicitly consent to sharing.</p>
                 </div>
                 <div className="sharing-block">
                   <h4><i className="bi bi-bank"></i> For Legal Compliance</h4>
-                  <p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Nulla porttitor accumsan tincidunt.</p>
+                  <p>We may disclose information when required by law or to protect our rights.</p>
                   <ul>
                     <li>Comply with applicable regulations and legal requirements</li>
                     <li>Enforce our service agreements</li>
@@ -135,13 +137,13 @@ export default function PrivacyPage() {
                   </ul>
                 </div>
               </div>
-            </div>{/* End Policy Section */}
+            </div>
 
             <div className="policy-section" id="security" data-aos="fade-up" data-aos-delay="300">
               <div className="section-number">05</div>
               <div className="section-content">
                 <h2>Data Security</h2>
-                <p>Cras ultricies ligula sed magna dictum porta. Proin eget tortor risus. Vivamus magna justo, lacinia eget consectetur sed.</p>
+                <p>We implement appropriate security measures to protect your information:</p>
                 <div className="security-features">
                   <div className="security-item">
                     <div className="security-icon">
@@ -172,13 +174,13 @@ export default function PrivacyPage() {
                   </div>
                 </div>
               </div>
-            </div>{/* End Policy Section */}
+            </div>
 
             <div className="policy-section" id="rights" data-aos="fade-up" data-aos-delay="350">
               <div className="section-number">06</div>
               <div className="section-content">
                 <h2>Your Rights and Choices</h2>
-                <p>Sed porttitor lectus nibh. Vivamus suscipit tortor eget felis porttitor volutpat.</p>
+                <p>You have the following rights regarding your personal information:</p>
                 <div className="rights-list">
                   <div className="right-item">
                     <i className="bi bi-eye"></i>
@@ -210,39 +212,41 @@ export default function PrivacyPage() {
                   </div>
                 </div>
               </div>
-            </div>{/* End Policy Section */}
+            </div>
 
             <div className="policy-section" id="updates" data-aos="fade-up" data-aos-delay="400">
               <div className="section-number">07</div>
               <div className="section-content">
                 <h2>Changes to This Policy</h2>
-                <p>Quisque velit nisi, pretium ut lacinia in, elementum id enim. Donec rutrum congue leo eget malesuada. Nulla quis lorem ut libero malesuada feugiat.</p>
-                <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae. Pellentesque in ipsum id orci porta dapibus.</p>
+                <p>We may update this privacy policy from time to time. We will notify you of any changes by posting the new policy on this page.</p>
+                <p>We encourage you to review this policy periodically for any changes.</p>
               </div>
-            </div>{/* End Policy Section */}
+            </div>
 
             <div className="policy-section contact-section" id="contact" data-aos="fade-up" data-aos-delay="450">
               <div className="section-number">08</div>
               <div className="section-content">
                 <h2>Get in Touch</h2>
-                <p>Nulla porttitor accumsan tincidunt. Proin eget tortor risus.</p>
+                <p>If you have any questions about this Privacy Policy, please contact us:</p>
                 <div className="contact-cards">
                   <div className="contact-card">
                     <i className="bi bi-envelope"></i>
-                    <span>support@example.com</span>
+                    <span>{loading ? 'Loading...' : settings.company_email}</span>
                   </div>
-                  <div className="contact-card">
-                    <i className="bi bi-geo-alt"></i>
-                    <span>456 Oak Avenue, Portland, OR 97201</span>
-                  </div>
+                  {settings.company_address && (
+                    <div className="contact-card">
+                      <i className="bi bi-geo-alt"></i>
+                      <span>{settings.company_address}</span>
+                    </div>
+                  )}
                   <div className="contact-card">
                     <i className="bi bi-telephone"></i>
-                    <span>+1 (555) 234-5678</span>
+                    <span>{loading ? 'Loading...' : settings.company_phone}</span>
                   </div>
                 </div>
               </div>
-            </div>{/* End Policy Section */}
-          </div>{/* End Main Content */}
+            </div>
+          </div>
         </div>
       </div>
     </section>

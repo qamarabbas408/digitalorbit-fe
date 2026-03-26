@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Script from "next/script";
+import { SettingsProvider } from "@/context/SettingsContext";
 
 export const metadata: Metadata = {
   title: "DigitalOrbit - Crafting Exceptional Digital Experiences",
@@ -56,9 +57,11 @@ export default function RootLayout({
         {/* Main CSS File */}
         <link href="/assets/css/main.css" rel="stylesheet" />
 
-        <Header />
-        <main className="main">{children}</main>
-        <Footer />
+        <SettingsProvider>
+          <Header />
+          <main className="main">{children}</main>
+          <Footer />
+        </SettingsProvider>
 
         {/* Scroll Top */}
         <a

@@ -91,6 +91,7 @@ export default function AdminLayout({
     { href: '/admin', icon: 'bi-speedometer2', label: 'Dashboard' },
     { href: '/admin/projects', icon: 'bi-briefcase', label: 'Projects' },
     { href: '/admin/categories', icon: 'bi-tags', label: 'Categories' },
+    { href: '/admin/settings', icon: 'bi-gear', label: 'Settings' },
   ];
 
   return (
