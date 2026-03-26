@@ -7,6 +7,7 @@ import Script from "next/script";
 export const metadata: Metadata = {
   title: "Orbit - Digital Orbits",
   description: "Crafting Exceptional Digital Experiences",
+  keywords: "digital, orbits, experiences", // Add your keywords here
 };
 
 export default function RootLayout({
@@ -16,12 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-        <meta name="description" content="" />
-        <meta name="keywords" content="" />
-
+      <body>
         {/* Favicons */}
         <link href="/assets/img/favicon.png" rel="icon" />
         <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
@@ -59,8 +55,7 @@ export default function RootLayout({
 
         {/* Main CSS File */}
         <link href="/assets/css/main.css" rel="stylesheet" />
-      </head>
-      <body>
+
         <Header />
         <main className="main">{children}</main>
         <Footer />

@@ -20,7 +20,11 @@
   }
 
   document.addEventListener('scroll', toggleScrolled);
-  window.addEventListener('load', toggleScrolled);
+  if (document.readyState === 'complete') {
+    toggleScrolled();
+  } else {
+    window.addEventListener('load', toggleScrolled);
+  }
 
   /**
    * Mobile nav toggle
@@ -65,9 +69,13 @@
    */
   const preloader = document.querySelector('#preloader');
   if (preloader) {
-    window.addEventListener('load', () => {
+    if (document.readyState === 'complete') {
       preloader.remove();
-    });
+    } else {
+      window.addEventListener('load', () => {
+        preloader.remove();
+      });
+    }
   }
 
   /**
@@ -80,15 +88,22 @@
       window.scrollY > 100 ? scrollTop.classList.add('active') : scrollTop.classList.remove('active');
     }
   }
-  scrollTop.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
 
-  window.addEventListener('load', toggleScrollTop);
+  if (scrollTop) {
+    scrollTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+
+  if (document.readyState === 'complete') {
+    toggleScrollTop();
+  } else {
+    window.addEventListener('load', toggleScrollTop);
+  }
   document.addEventListener('scroll', toggleScrollTop);
 
   /**
@@ -102,7 +117,13 @@
       mirror: false
     });
   }
-  window.addEventListener('load', aosInit);
+  if (typeof AOS !== 'undefined') {
+    if (document.readyState === 'complete') {
+      aosInit();
+    } else {
+      window.addEventListener('load', aosInit);
+    }
+  }
 
   /**
    * Initiate glightbox
@@ -166,12 +187,16 @@
     });
   }
 
-  window.addEventListener("load", initSwiper);
+  if (document.readyState === 'complete') {
+    initSwiper();
+  } else {
+    window.addEventListener("load", initSwiper);
+  }
 
   /**
    * Correct scrolling position upon page load for URLs containing hash links.
    */
-  window.addEventListener('load', function(e) {
+  const hashScroll = function(e) {
     if (window.location.hash) {
       if (document.querySelector(window.location.hash)) {
         setTimeout(() => {
@@ -184,7 +209,13 @@
         }, 100);
       }
     }
-  });
+  };
+
+  if (document.readyState === 'complete') {
+    hashScroll();
+  } else {
+    window.addEventListener('load', hashScroll);
+  }
 
   /**
    * Navmenu Scrollspy
@@ -205,7 +236,11 @@
       }
     })
   }
-  window.addEventListener('load', navmenuScrollspy);
+  if (document.readyState === 'complete') {
+    navmenuScrollspy();
+  } else {
+    window.addEventListener('load', navmenuScrollspy);
+  }
   document.addEventListener('scroll', navmenuScrollspy);
 
 })();
