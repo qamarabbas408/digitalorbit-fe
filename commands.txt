@@ -1,0 +1,1 @@
+mysql -u root < "D:\personal-projects\templates\Orbit\digital-orbits-fe\src\lib\schema.sql"

@@ -1,13 +1,5 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const dataFile = path.join(process.cwd(), 'data', 'portfolio.json');
-
-function readData() {
-  const data = fs.readFileSync(dataFile, 'utf-8');
-  return JSON.parse(data);
-}
+import pool from '@/lib/db';
 
 export async function GET(
   request: Request,
@@ -15,15 +7,31 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const data = readData();
-    const project = data.projects.find((p: any) => p.id === id);
+    const [rows] = await pool.query('SELECT * FROM projects WHERE id = ?', [id]) as [any[], any];
     
-    if (!project) {
+    if (rows.length === 0) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
     
-    return NextResponse.json(project);
+    const row = rows[0];
+    return NextResponse.json({
+      id: row.id,
+      title: row.title,
+      subtitle: row.subtitle,
+      categoryId: row.category_id,
+      year: row.year,
+      technologies: row.technologies ? JSON.parse(row.technologies) : [],
+      description: row.description,
+      image: row.image,
+      gallery: row.gallery ? JSON.parse(row.gallery) : [],
+      featured: Boolean(row.featured),
+      client: row.client,
+      url: row.url,
+      status: row.status,
+      createdAt: row.created_at
+    });
   } catch (error) {
+    console.error('Failed to read project:', error);
     return NextResponse.json({ error: 'Failed to read project' }, { status: 500 });
   }
 }
@@ -35,18 +43,55 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const data = readData();
     
-    const index = data.projects.findIndex((p: any) => p.id === id);
-    if (index === -1) {
+    await pool.query(
+      `UPDATE projects SET 
+        title = ?, subtitle = ?, category_id = ?, year = ?, 
+        technologies = ?, description = ?, image = ?, 
+        gallery = ?, featured = ?, client = ?, url = ?, status = ?
+       WHERE id = ?`,
+      [
+        body.title,
+        body.subtitle || '',
+        body.categoryId,
+        body.year || '',
+        JSON.stringify(body.technologies || []),
+        body.description || '',
+        body.image || '',
+        JSON.stringify(body.gallery || []),
+        body.featured || false,
+        body.client || '',
+        body.url || '#',
+        body.status || 'published',
+        id
+      ]
+    );
+    
+    const [rows] = await pool.query('SELECT * FROM projects WHERE id = ?', [id]) as [any[], any];
+    
+    if (rows.length === 0) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
     
-    data.projects[index] = { ...data.projects[index], ...body, id };
-    fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
-    
-    return NextResponse.json(data.projects[index]);
+    const row = rows[0];
+    return NextResponse.json({
+      id: row.id,
+      title: row.title,
+      subtitle: row.subtitle,
+      categoryId: row.category_id,
+      year: row.year,
+      technologies: row.technologies ? JSON.parse(row.technologies) : [],
+      description: row.description,
+      image: row.image,
+      gallery: row.gallery ? JSON.parse(row.gallery) : [],
+      featured: Boolean(row.featured),
+      client: row.client,
+      url: row.url,
+      status: row.status,
+      createdAt: row.created_at
+    });
   } catch (error) {
+    console.error('Failed to update project:', error);
     return NextResponse.json({ error: 'Failed to update project' }, { status: 500 });
   }
 }
@@ -57,18 +102,10 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const data = readData();
-    
-    const index = data.projects.findIndex((p: any) => p.id === id);
-    if (index === -1) {
-      return NextResponse.json({ error: 'Project not found' }, { status: 404 });
-    }
-    
-    data.projects.splice(index, 1);
-    fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
-    
+    await pool.query('DELETE FROM projects WHERE id = ?', [id]);
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error('Failed to delete project:', error);
     return NextResponse.json({ error: 'Failed to delete project' }, { status: 500 });
   }
 }

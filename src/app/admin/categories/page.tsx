@@ -34,7 +34,8 @@ export default function CategoriesPage() {
   const fetchCategories = async () => {
     try {
       const res = await fetch('/api/portfolio/categories');
-      setCategories(await res.json());
+      const data = await res.json();
+      setCategories(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Failed to fetch categories:', error);
     } finally {
@@ -95,110 +96,133 @@ export default function CategoriesPage() {
 
   if (loading) {
     return (
-      <div className="admin-loading">
-        <div className="spinner"></div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-10 h-10 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div>
-      <div className="admin-page-header">
-        <h1>Categories</h1>
-        <p>Manage project categories</p>
+    <div className="p-6">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Categories</h1>
+        <p className="text-gray-600">Manage project categories</p>
       </div>
 
-      <div className="admin-card">
-        <div className="admin-card-header">
-          <h2>All Categories ({categories.length})</h2>
-          <button className="btn btn-primary" onClick={() => openModal()}>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <h2 className="text-lg font-semibold text-gray-800">All Categories ({categories.length})</h2>
+          <button 
+            onClick={() => openModal()}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+          >
             <i className="bi bi-plus"></i>
             Add Category
           </button>
         </div>
-        <div className="admin-card-body">
-          {categories.length === 0 ? (
-            <div className="empty-state">
-              <i className="bi bi-tags"></i>
-              <h3>No categories yet</h3>
-              <p>Create categories to organize your projects</p>
-              <button className="btn btn-primary" onClick={() => openModal()}>
-                Add Category
-              </button>
-            </div>
-          ) : (
-            <div className="table-wrapper">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Icon</th>
-                    <th>Name</th>
-                    <th>Slug</th>
-                    <th>Filter Class</th>
-                    <th>Actions</th>
+        
+        {categories.length === 0 ? (
+          <div className="p-12 text-center">
+            <i className="bi bi-tags text-5xl text-gray-300 mb-4"></i>
+            <h3 className="text-lg font-medium text-gray-700 mb-2">No categories yet</h3>
+            <p className="text-gray-500 mb-4">Create categories to organize your projects</p>
+            <button 
+              onClick={() => openModal()}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Add Category
+            </button>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Icon</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Slug</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Filter Class</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {categories.map((category) => (
+                  <tr key={category.id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4">
+                      <i className={`bi ${category.icon} text-2xl text-blue-600`}></i>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className="font-medium text-gray-900">{category.name}</span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <code className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-sm">{category.slug}</code>
+                    </td>
+                    <td className="px-6 py-4">
+                      <code className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-sm">{category.filterClass}</code>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={() => openModal(category)}
+                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                        >
+                          <i className="bi bi-pencil"></i>
+                        </button>
+                        <button 
+                          onClick={() => handleDelete(category.id)}
+                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        >
+                          <i className="bi bi-trash"></i>
+                        </button>
+                      </div>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {categories.map((category) => (
-                    <tr key={category.id}>
-                      <td>
-                        <i className={`bi ${category.icon}`} style={{ fontSize: '1.5rem' }}></i>
-                      </td>
-                      <td>
-                        <strong>{category.name}</strong>
-                      </td>
-                      <td>
-                        <code>{category.slug}</code>
-                      </td>
-                      <td>
-                        <code>{category.filterClass}</code>
-                      </td>
-                      <td>
-                        <div className="actions">
-                          <button className="edit" onClick={() => openModal(category)}>
-                            <i className="bi bi-pencil"></i>
-                          </button>
-                          <button className="delete" onClick={() => handleDelete(category.id)}>
-                            <i className="bi bi-trash"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {showModal && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '500px' }}>
-            <div className="modal-header">
-              <h3>{editingCategory ? 'Edit Category' : 'Add New Category'}</h3>
-              <button className="modal-close" onClick={closeModal}>
-                <i className="bi bi-x"></i>
-              </button>
-            </div>
-            <form onSubmit={handleSubmit}>
-              <div className="modal-body">
-                <div className="form-group">
-                  <label>Category Name *</label>
+        <div className="fixed inset-0 z-50 overflow-y-auto" onClick={closeModal}>
+          <div className="flex min-h-screen items-center justify-center p-4">
+            <div className="fixed inset-0 bg-black/50 transition-opacity" onClick={closeModal}></div>
+            <div 
+              className="relative bg-white rounded-xl shadow-xl max-w-md w-full"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+                <h3 className="text-xl font-semibold text-gray-900">
+                  {editingCategory ? 'Edit Category' : 'Add New Category'}
+                </h3>
+                <button 
+                  onClick={closeModal}
+                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <i className="bi bi-x-lg text-xl"></i>
+                </button>
+              </div>
+              
+              <form onSubmit={handleSubmit} className="p-6">
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Category Name *</label>
                   <input
                     type="text"
                     value={formData.name}
                     onChange={e => setFormData({ ...formData, name: e.target.value })}
                     required
                     placeholder="e.g., Web Design"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
                   />
                 </div>
 
-                <div className="form-group">
-                  <label>Icon</label>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>
                   <select
                     value={formData.icon}
                     onChange={e => setFormData({ ...formData, icon: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
                   >
                     {iconOptions.map(icon => (
                       <option key={icon} value={icon}>
@@ -206,20 +230,28 @@ export default function CategoriesPage() {
                       </option>
                     ))}
                   </select>
-                  <div style={{ marginTop: '0.5rem', fontSize: '1.5rem' }}>
+                  <div className="mt-3 text-3xl">
                     <i className={`bi ${formData.icon}`}></i>
                   </div>
                 </div>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={closeModal}>
-                  Cancel
-                </button>
-                <button type="submit" className="btn btn-primary">
-                  {editingCategory ? 'Update Category' : 'Add Category'}
-                </button>
-              </div>
-            </form>
+
+                <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                  <button 
+                    type="button" 
+                    onClick={closeModal}
+                    className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit"
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    {editingCategory ? 'Update Category' : 'Add Category'}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
