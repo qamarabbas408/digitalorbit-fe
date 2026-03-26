@@ -1,46 +1,42 @@
-import HtmlContent from '@/components/HtmlContent';
+import React from 'react';
 
 export default function NotFound() {
-  const html = `
-
-    <!-- Error 404 Section -->
-    <section id="error-404" class="error-404 section">
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row align-items-center g-5">
-          <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
-            <div class="error-visual">
-              <div class="error-code">
-                <span class="digit">4</span>
-                <span class="digit middle">
-                  <i class="bi bi-emoji-frown"></i>
+  return (
+    <section id="error-404" className="error-404 section">
+      <div className="container" data-aos="fade-up" data-aos-delay="100">
+        <div className="row align-items-center g-5">
+          <div className="col-lg-6" data-aos="fade-right" data-aos-delay="200">
+            <div className="error-visual">
+              <div className="error-code">
+                <span className="digit">4</span>
+                <span className="digit middle">
+                  <i className="bi bi-emoji-frown"></i>
                 </span>
-                <span class="digit">4</span>
+                <span className="digit">4</span>
               </div>
-              <div class="error-decoration">
-                <div class="circle circle-1"></div>
-                <div class="circle circle-2"></div>
-                <div class="circle circle-3"></div>
+              <div className="error-decoration">
+                <div className="circle circle-1"></div>
+                <div className="circle circle-2"></div>
+                <div className="circle circle-3"></div>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
-            <div class="error-content">
-              <span class="error-badge">Oops!</span>
-              <h1 class="error-heading">Something Went Wrong</h1>
-              <p class="error-text">
+          <div className="col-lg-6" data-aos="fade-left" data-aos-delay="300">
+            <div className="error-content">
+              <span className="error-badge">Oops!</span>
+              <h1 className="error-heading">Something Went Wrong</h1>
+              <p className="error-text">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod metus vel sem bibendum, a sagittis arcu posuere. Phasellus vehicula ipsum non massa fermentum.
               </p>
 
-              <div class="action-buttons">
-                <a href="/" class="btn-home">
-                  <i class="bi bi-arrow-left"></i>
+              <div className="action-buttons">
+                <a href="/" className="btn-home">
+                  <i className="bi bi-arrow-left"></i>
                   Return Home
                 </a>
-                <a href="#" class="btn-report">
-                  <i class="bi bi-flag"></i>
+                <a href="#" className="btn-report">
+                  <i className="bi bi-flag"></i>
                   Report Issue
                 </a>
               </div>
@@ -48,57 +44,52 @@ export default function NotFound() {
           </div>
         </div>
 
-        <div class="row mt-5 pt-4">
-          <div class="col-12">
-            <div class="quick-navigation" data-aos="fade-up" data-aos-delay="400">
-              <h4 class="nav-title">Quick Navigation</h4>
-              <div class="nav-links">
-                <a href="#" class="nav-link-item">
-                  <div class="icon-wrap">
-                    <i class="bi bi-house-door"></i>
+        <div className="row mt-5 pt-4">
+          <div className="col-12">
+            <div className="quick-navigation" data-aos="fade-up" data-aos-delay="400">
+              <h4 className="nav-title">Quick Navigation</h4>
+              <div className="nav-links">
+                <a href="/" className="nav-link-item">
+                  <div className="icon-wrap">
+                    <i className="bi bi-house-door"></i>
                   </div>
-                  <div class="link-content">
-                    <span class="link-title">Homepage</span>
-                    <span class="link-desc">Start fresh</span>
-                  </div>
-                </a>
-                <a href="#" class="nav-link-item">
-                  <div class="icon-wrap">
-                    <i class="bi bi-collection"></i>
-                  </div>
-                  <div class="link-content">
-                    <span class="link-title">Portfolio</span>
-                    <span class="link-desc">View our work</span>
+                  <div className="link-content">
+                    <span className="link-title">Homepage</span>
+                    <span className="link-desc">Start fresh</span>
                   </div>
                 </a>
-                <a href="#" class="nav-link-item">
-                  <div class="icon-wrap">
-                    <i class="bi bi-people"></i>
+                <a href="/portfolio-details" className="nav-link-item">
+                  <div className="icon-wrap">
+                    <i className="bi bi-collection"></i>
                   </div>
-                  <div class="link-content">
-                    <span class="link-title">Team</span>
-                    <span class="link-desc">Meet the crew</span>
+                  <div className="link-content">
+                    <span className="link-title">Portfolio</span>
+                    <span className="link-desc">View our work</span>
                   </div>
                 </a>
-                <a href="#" class="nav-link-item">
-                  <div class="icon-wrap">
-                    <i class="bi bi-envelope"></i>
+                <a href="/#team" className="nav-link-item">
+                  <div className="icon-wrap">
+                    <i className="bi bi-people"></i>
                   </div>
-                  <div class="link-content">
-                    <span class="link-title">Contact</span>
-                    <span class="link-desc">Get in touch</span>
+                  <div className="link-content">
+                    <span className="link-title">Team</span>
+                    <span className="link-desc">Meet the crew</span>
+                  </div>
+                </a>
+                <a href="/#contact" className="nav-link-item">
+                  <div className="icon-wrap">
+                    <i className="bi bi-envelope"></i>
+                  </div>
+                  <div className="link-content">
+                    <span className="link-title">Contact</span>
+                    <span className="link-desc">Get in touch</span>
                   </div>
                 </a>
               </div>
             </div>
           </div>
         </div>
-
       </div>
-
-    </section><!-- /Error 404 Section -->
-
-  `;
-  
-  return <HtmlContent html={html} />;
+    </section>
+  );
 }

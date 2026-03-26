@@ -1,0 +1,85 @@
+import React from 'react';
+
+export default function About() {
+  return (
+    <section id="about" className="about section">
+      <div className="container" data-aos="fade-up" data-aos-delay="100">
+        <div className="row gy-5 align-items-center">
+          <div className="col-xl-6 aos-init aos-animate" data-aos="fade-right" data-aos-delay="200">
+            <div className="about-images-wrapper">
+              <div className="image-main">
+                <img src="/assets/img/about/about-5.webp" alt="Business meeting" className="img-fluid" />
+              </div>
+              <div className="image-offset">
+                <img src="/assets/img/about/about-square-3.webp" alt="Detail shot" className="img-fluid" />
+              </div>
+              <div className="experience-badge">
+                <span className="years purecounter" data-purecounter-start="0" data-purecounter-end="12" data-purecounter-duration="1">12</span>
+                <span className="text">Years of<br />Excellence</span>
+              </div>
+              <div className="shape-pattern"></div>
+            </div>
+          </div>
+          <div className="col-xl-6 aos-init aos-animate" data-aos="fade-left" data-aos-delay="300">
+            <div className="about-content">
+              <div className="section-subtitle">Who We Are</div>
+              <h2>Innovating for Your Success Through Technology</h2>
+              <p className="lead-text">
+                Voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+              </p>
+              <p className="mb-4 description">
+                Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
+              </p>
+              <div className="features-grid">
+                <div className="feature-card">
+                  <i className="bi bi-check-circle-fill"></i>
+                  <span>Fast Delivery</span>
+                </div>
+                <div className="feature-card">
+                  <i className="bi bi-check-circle-fill"></i>
+                  <span>Quality Assured</span>
+                </div>
+                <div className="feature-card">
+                  <i className="bi bi-check-circle-fill"></i>
+                  <span>Expert Team</span>
+                </div>
+                <div className="feature-card">
+                  <i className="bi bi-check-circle-fill"></i>
+                  <span>24/7 Support</span>
+                </div>
+              </div>
+              <div className="stats-row">
+                <div className="stat-box">
+                  <span className="number purecounter" data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="1">150</span>
+                  <span className="label">Projects Done</span>
+                </div>
+                <div className="stat-box">
+                  <span className="number purecounter" data-purecounter-start="0" data-purecounter-end="85" data-purecounter-duration="1">85</span>
+                  <span className="label">Happy Clients</span>
+                </div>
+                <div className="stat-box">
+                  <span className="number purecounter" data-purecounter-start="0" data-purecounter-end="95" data-purecounter-duration="1">95%</span>
+                  <span className="label">Retention</span>
+                </div>
+              </div>
+              <div className="action-buttons">
+                <a href="#" className="btn btn-primary-custom">
+                  Discover More <i className="bi bi-arrow-right"></i>
+                </a>
+                <div className="contact-info">
+                  <div className="icon-box">
+                    <i className="bi bi-telephone-fill"></i>
+                  </div>
+                  <div className="text">
+                    <span>Call Us Today</span>
+                    <a href="tel:+15551234567">+1 (555) 123-4567</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
