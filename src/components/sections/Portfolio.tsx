@@ -20,7 +20,7 @@ interface Project {
 interface Category {
   id: string;
   name: string;
-  filterClass: string;
+  filter_class: string;
 }
 
 export default function Portfolio() {
@@ -55,18 +55,19 @@ export default function Portfolio() {
     return category?.name || categoryId;
   };
 
-  const getCategoryFilterClass = (categoryId: string) => {
+  const getFilterClass = (categoryId: string) => {
     const category = categories.find(c => c.id === categoryId);
-    return category?.filterClass || `filter-${categoryId}`;
+    return category?.filter_class || `filter-${categoryId}`;
   };
 
-  const handleFilterClick = (filter: string) => {
-    setActiveFilter(filter);
+  const handleFilterClick = (filterClass: string) => {
+    setActiveFilter(filterClass);
   };
 
-  const filteredProjects = projects.filter(project => 
-    activeFilter === '*' || `.${getCategoryFilterClass(project.categoryId)}` === activeFilter
-  );
+  const filteredProjects = projects.filter(project => {
+    if (activeFilter === '*') return true;
+    return getFilterClass(project.categoryId) === activeFilter;
+  });
 
   if (loading) {
     return (
@@ -87,9 +88,9 @@ export default function Portfolio() {
       </div>
 
       <div className="container" data-aos="fade-up" data-aos-delay="100">
-        <div className="isotope-layout" data-default-filter="*" data-layout="fitRows" data-sort="original-order">
+        <div className="portfolio-container" data-default-filter="*" data-layout="fitRows" data-sort="original-order">
           <div className="filters-wrapper" data-aos="fade-up" data-aos-delay="100">
-            <ul className="portfolio-filters isotope-filters">
+            <ul className="portfolio-filters">
               <li 
                 data-filter="*" 
                 className={activeFilter === '*' ? 'filter-active' : ''}
@@ -100,9 +101,9 @@ export default function Portfolio() {
               {categories.map((category) => (
                 <li 
                   key={category.id}
-                  data-filter={`.${category.filterClass}`}
-                  className={activeFilter === `.${category.filterClass}` ? 'filter-active' : ''}
-                  onClick={() => handleFilterClick(`.${category.filterClass}`)}
+                  data-filter={category.filter_class}
+                  className={activeFilter === category.filter_class ? 'filter-active' : ''}
+                  onClick={() => handleFilterClick(category.filter_class)}
                 >
                   {category.name}
                 </li>
@@ -110,7 +111,7 @@ export default function Portfolio() {
             </ul>
           </div>
 
-          <div className="row g-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
+          <div className="row g-4 portfolio-grid" data-aos="fade-up" data-aos-delay="200">
             {projects.length === 0 ? (
               <div className="col-12">
                 <div className="empty-portfolio">
@@ -122,17 +123,18 @@ export default function Portfolio() {
                   </a>
                 </div>
               </div>
-            ) : filteredProjects.length === 0 ? (
-              <div className="col-12" data-aos="fade-up">
+            ) : filteredProjects.length === 0 && activeFilter !== '*' ? (
+              <div className="col-12">
                 <div className="empty-portfolio">
-                  <i className="bi bi-search"></i>
-                  <h3>No matching projects</h3>
-                  <p>We don&apos;t have any projects in this category yet. Please explore our other categories!</p>
+                  <i className="bi bi-folder2-open"></i>
+                  <h3>No projects in this category</h3>
+                  <p>We don&apos;t have any projects in this category yet. Check back soon!</p>
                   <button 
+                  
                     onClick={() => handleFilterClick('*')} 
-                    className="btn btn-primary mt-3"
+                    className="btn btn-primary mt-3 p-3"
                   >
-                    <i className="bi bi-arrow-left"></i> View All Projects
+                    View All Projects
                   </button>
                 </div>
               </div>
@@ -140,7 +142,7 @@ export default function Portfolio() {
               filteredProjects.map((project) => (
                 <div 
                   key={project.id} 
-                  className={`col-lg-4 col-md-6 portfolio-item isotope-item ${getCategoryFilterClass(project.categoryId)}`}
+                  className={`col-lg-4 col-md-6 portfolio-item ${getFilterClass(project.categoryId)}`}
                 >
                   <div className={`project-card ${project.featured ? 'featured' : ''}`}>
                     <div className="image-wrapper">
