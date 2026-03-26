@@ -1,118 +1,123 @@
-import React from 'react';
+'use client';
+
+import { useState, useEffect } from 'react';
+
+interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  bio: string;
+  image: string;
+  facebook_url: string;
+  twitter_url: string;
+  linkedin_url: string;
+  instagram_url: string;
+}
 
 export default function Team() {
+  const [members, setMembers] = useState<TeamMember[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchTeamMembers();
+  }, []);
+
+  const fetchTeamMembers = async () => {
+    try {
+      const res = await fetch('/api/team');
+      const data = await res.json();
+      setMembers(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Failed to fetch team members:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section id="team" className="team section">
-      {/* Section Title */}
       <div className="container section-title" data-aos="fade-up">
-        <h2>Team</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div>{/* End Section Title */}
+        <h2>Our Team</h2>
+        <p>Meet the talented individuals behind our success</p>
+      </div>
 
       <div className="container" data-aos="fade-up" data-aos-delay="100">
-        <div className="row gy-5">
-          {/* Team Member 1 */}
-          <div className="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <div className="team-card">
-              <div className="member-img">
-                <img src="/assets/img/person/person-m-1.webp" className="img-fluid" alt="Team Member" />
-                <div className="social-overlay">
-                  <div className="social-links">
-                    <a href="#"><i className="bi bi-twitter-x"></i></a>
-                    <a href="#"><i className="bi bi-linkedin"></i></a>
-                    <a href="#"><i className="bi bi-instagram"></i></a>
+        {loading ? (
+          <div className="text-center py-5">
+            <div className="w-10 h-10 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin mx-auto"></div>
+          </div>
+        ) : members.length === 0 ? (
+          <div className="text-center py-5">
+            <i className="bi bi-people text-5xl text-gray-300 mb-3"></i>
+            <p className="text-gray-500">Our team is growing. Check back soon!</p>
+          </div>
+        ) : (
+          <div className="row gy-5">
+            {members.map((member, index) => (
+              <div 
+                key={member.id} 
+                className="col-lg-3 col-md-6" 
+                data-aos="fade-up" 
+                data-aos-delay={(index + 1) * 100}
+              >
+                <div className="team-card">
+                  <div className="member-img">
+                    <img 
+                      src={member.image || '/assets/img/person/person-m-1.webp'} 
+                      className="img-fluid" 
+                      alt={member.name} 
+                    />
+                    <div className="social-overlay">
+                      <div className="social-links">
+                        {member.facebook_url && member.facebook_url !== '#' && (
+                          <a href={member.facebook_url} target="_blank" rel="noopener noreferrer">
+                            <i className="bi bi-facebook"></i>
+                          </a>
+                        )}
+                        {member.twitter_url && member.twitter_url !== '#' && (
+                          <a href={member.twitter_url} target="_blank" rel="noopener noreferrer">
+                            <i className="bi bi-twitter-x"></i>
+                          </a>
+                        )}
+                        {member.linkedin_url && member.linkedin_url !== '#' && (
+                          <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer">
+                            <i className="bi bi-linkedin"></i>
+                          </a>
+                        )}
+                        {member.instagram_url && member.instagram_url !== '#' && (
+                          <a href={member.instagram_url} target="_blank" rel="noopener noreferrer">
+                            <i className="bi bi-instagram"></i>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="member-info">
+                    <h4>{member.name}</h4>
+                    {member.role && <p>{member.role}</p>}
                   </div>
                 </div>
               </div>
-              <div className="member-info">
-                <span className="member-badge">Founder</span>
-                <h4>Marcus Wellington</h4>
-                <p>Chief Executive Officer</p>
-              </div>
-            </div>
-          </div>{/* End Team Member */}
+            ))}
+          </div>
+        )}
 
-          {/* Team Member 2 */}
-          <div className="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div className="team-card">
-              <div className="member-img">
-                <img src="/assets/img/person/person-f-2.webp" className="img-fluid" alt="Team Member" />
-                <div className="social-overlay">
-                  <div className="social-links">
-                    <a href="#"><i className="bi bi-twitter-x"></i></a>
-                    <a href="#"><i className="bi bi-linkedin"></i></a>
-                    <a href="#"><i className="bi bi-dribbble"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div className="member-info">
-                <span className="member-badge">Strategy</span>
-                <h4>Elena Rodriguez</h4>
-                <p>Creative Director</p>
-              </div>
-            </div>
-          </div>{/* End Team Member */}
-
-          {/* Team Member 3 - Featured */}
-          <div className="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div className="team-card featured">
-              <div className="member-img">
-                <img src="/assets/img/person/person-m-5.webp" className="img-fluid" alt="Team Member" />
-                <div className="social-overlay">
-                  <div className="social-links">
-                    <a href="#"><i className="bi bi-twitter-x"></i></a>
-                    <a href="#"><i className="bi bi-github"></i></a>
-                    <a href="#"><i className="bi bi-linkedin"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div className="member-info">
-                <span className="member-badge">Tech Lead</span>
-                <h4>David Chen</h4>
-                <p>Head of Engineering</p>
-              </div>
-            </div>
-          </div>{/* End Team Member */}
-
-          {/* Team Member 4 */}
-          <div className="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
-            <div className="team-card">
-              <div className="member-img">
-                <img src="/assets/img/person/person-f-7.webp" className="img-fluid" alt="Team Member" />
-                <div className="social-overlay">
-                  <div className="social-links">
-                    <a href="#"><i className="bi bi-twitter-x"></i></a>
-                    <a href="#"><i className="bi bi-linkedin"></i></a>
-                    <a href="#"><i className="bi bi-behance"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div className="member-info">
-                <span className="member-badge">Growth</span>
-                <h4>Sophia Martinez</h4>
-                <p>Marketing Director</p>
-              </div>
-            </div>
-          </div>{/* End Team Member */}
-        </div>
-
-        {/* Stats Row */}
         <div className="team-stats" data-aos="fade-up" data-aos-delay="500">
           <div className="row justify-content-center">
             <div className="col-lg-8">
               <div className="stats-wrapper">
                 <div className="stat-item">
-                  <span className="stat-number">50+</span>
+                  <span className="stat-number">{members.length}+</span>
                   <span className="stat-label">Team Members</span>
                 </div>
                 <div className="stat-divider"></div>
                 <div className="stat-item">
-                  <span className="stat-number">12</span>
-                  <span className="stat-label">Countries</span>
+                  <span className="stat-number">50+</span>
+                  <span className="stat-label">Projects Delivered</span>
                 </div>
                 <div className="stat-divider"></div>
                 <div className="stat-item">
-                  <span className="stat-number">8+</span>
+                  <span className="stat-number">5+</span>
                   <span className="stat-label">Years Experience</span>
                 </div>
               </div>
