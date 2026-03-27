@@ -1,4 +1,4 @@
-name: CI/CD - Build and Deploy
+name: CI - Build and Lint
 
 on:
   push:
@@ -36,39 +36,3 @@ jobs:
           DB_NAME: ${{ secrets.DB_NAME }}
           DB_PORT: ${{ secrets.DB_PORT }}
           NEXT_PUBLIC_ADMIN_PASSWORD: ${{ secrets.NEXT_PUBLIC_ADMIN_PASSWORD }}
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-output
-          path: .next
-          retention-days: 7
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    
-    steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-output
-          path: .next
-
-      - name: Deploy to Production Server via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-        with:
-          server: ${{ secrets.PRODUCTION_FTP_SERVER }}
-          username: ${{ secrets.PRODUCTION_FTP_USERNAME }}
-          password: ${{ secrets.PRODUCTION_FTP_PASSWORD }}
-          local-dir: ./
-          port: 21
-          exclude: |
-            **/.git*
-            **/.github/**
-            **/node_modules/**
-            **/.env*
-            **/README.md
-            **/features.md
-            **/*.sql
