@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useSettings } from "@/context/SettingsContext";
-
-interface Toast {
-  id: number;
-  message: string;
-  type: 'success' | 'error' | 'info';
-}
+import CustomToaster, { showToast } from '@/components/CustomToaster';
+import { 
+  Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram,
+  Send, Lock, Loader2, User, MessageSquare, StickyNote
+} from 'lucide-react';
 
 interface Stat {
   id: string;
@@ -31,7 +30,6 @@ export default function Contact() {
     phone: ''
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [toasts, setToasts] = useState<Toast[]>([]);
 
   useEffect(() => {
     fetchStats();
@@ -47,19 +45,6 @@ export default function Contact() {
     } finally {
       setStatsLoading(false);
     }
-  };
-
-  const showToast = (message: string, type: 'success' | 'error' | 'info') => {
-    const id = Date.now();
-    setToasts(prev => [...prev, { id, message, type }]);
-    
-    setTimeout(() => {
-      setToasts(prev => prev.filter(t => t.id !== id));
-    }, 5000);
-  };
-
-  const removeToast = (id: number) => {
-    setToasts(prev => prev.filter(t => t.id !== id));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -85,252 +70,242 @@ export default function Contact() {
 
       setStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '', phone: '' });
-      showToast('Your message has been sent successfully! We will get back to you soon.', 'success');
+      showToast.success('Your message has been sent successfully! We will get back to you soon.');
       
       setTimeout(() => setStatus('idle'), 3000);
     } catch (error) {
       setStatus('error');
-      showToast(error instanceof Error ? error.message : 'Failed to send message. Please try again.', 'error');
+      showToast.error(error instanceof Error ? error.message : 'Failed to send message. Please try again.');
       
       setTimeout(() => setStatus('idle'), 3000);
     }
   };
 
+  const inputClasses = "w-full px-4 py-3 pl-12 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-gray-700 placeholder-gray-400";
+  const labelClasses = "block text-sm font-medium text-gray-700 mb-2";
+  const iconClasses = "absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5";
+
   return (
     <>
-      {/* Toast Notifications */}
-      <div className="toast-container">
-        {toasts.map((toast) => (
-          <div key={toast.id} className={`toast toast-${toast.type}`}>
-            <div className="toast-icon">
-              {toast.type === 'success' && <i className="bi bi-check-circle-fill"></i>}
-              {toast.type === 'error' && <i className="bi bi-exclamation-circle-fill"></i>}
-              {toast.type === 'info' && <i className="bi bi-info-circle-fill"></i>}
-            </div>
-            <div className="toast-content">
-              <p className="toast-message">{toast.message}</p>
-            </div>
-            <button 
-              className="toast-close"
-              onClick={() => removeToast(toast.id)}
-            >
-              <i className="bi bi-x"></i>
-            </button>
-            <div className="toast-progress"></div>
+      <CustomToaster />
+      
+      <section id="contact" className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16" data-aos="fade-up">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Contact</h2>
+            <p className="text-gray-500 text-lg">Get in touch with us for your next project</p>
           </div>
-        ))}
-      </div>
 
-      <section id="contact" className="contact section">
-        <div className="container section-title" data-aos="fade-up">
-          <h2>Contact</h2>
-          <p>Get in touch with us for your next project</p>
-        </div>
-
-        <div className="container" data-aos="fade-up" data-aos-delay="100">
-          <div className="row gy-5 align-items-stretch">
-            <div className="col-lg-5" data-aos="fade-right" data-aos-delay="200">
-              <div className="info-panel">
-                <div className="panel-header">
-                  <span className="section-badge">
-                    <i className="bi bi-chat-dots-fill"></i>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8" data-aos="fade-up" data-aos-delay="100">
+            {/* Info Panel */}
+            <div className="lg:col-span-5">
+              <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 text-white h-full">
+                <div className="mb-8">
+                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-300 rounded-full text-sm font-medium mb-4">
+                    <MessageSquare className="w-4 h-4" />
                     Get In Touch
                   </span>
-                  <h3>Let&apos;s Build Something Amazing</h3>
-                  <p>Ready to transform your ideas into reality? We&apos;d love to hear from you.</p>
+                  <h3 className="text-2xl font-bold mb-2 text-light">Let&apos;s Build Something Amazing</h3>
+                  <p className="text-slate-300">Ready to transform your ideas into reality? We&apos;d love to hear from you.</p>
                 </div>
 
-                <div className="contact-methods">
-                  <div className="method-item">
-                    <div className="method-icon">
-                      <i className="bi bi-envelope-paper-fill"></i>
+                <div className="space-y-6 mb-8">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <Mail className="w-5 h-5" />
                     </div>
-                    <div className="method-details">
-                      <span className="method-label">Email Us</span>
-                      <a href={`mailto:${loading ? '' : settings.company_email}`}>
+                    <div>
+                      <p className="text-sm text-slate-400 mb-1">Email Us</p>
+                      <a href={`mailto:${loading ? '' : settings.company_email}`} className="text-white hover:text-blue-300 transition-colors">
                         {loading ? 'Loading...' : settings.company_email}
                       </a>
                     </div>
                   </div>
 
-                  <div className="method-item">
-                    <div className="method-icon">
-                      <i className="bi bi-headset"></i>
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <Phone className="w-5 h-5" />
                     </div>
-                    <div className="method-details">
-                      <span className="method-label">Call Us</span>
-                      <a href={`tel:${loading ? '' : settings.company_phone.replace(/\s/g, '')}`}>
+                    <div>
+                      <p className="text-sm text-slate-400 mb-1">Call Us</p>
+                      <a href={`tel:${loading ? '' : settings.company_phone.replace(/\s/g, '')}`} className="text-white hover:text-blue-300 transition-colors">
                         {loading ? 'Loading...' : settings.company_phone}
                       </a>
                     </div>
                   </div>
 
                   {settings.company_address && (
-                    <div className="method-item">
-                      <div className="method-icon">
-                        <i className="bi bi-pin-map-fill"></i>
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <MapPin className="w-5 h-5" />
                       </div>
-                      <div className="method-details">
-                        <span className="method-label">Location</span>
-                        <span>{settings.company_address}</span>
+                      <div>
+                        <p className="text-sm text-slate-400 mb-1">Location</p>
+                        <p className="text-white">{settings.company_address}</p>
                       </div>
                     </div>
                   )}
                 </div>
 
-                <div className="stats-strip">
+                {/* Stats */}
+                <div className="grid grid-cols-3 gap-4 py-6 border-t border-b border-white/10 mb-8">
                   {!statsLoading && stats.length > 0 ? (
                     stats.sort((a, b) => a.displayOrder - b.displayOrder).map((stat) => (
-                      <div key={stat.id} className="stat-item">
-                        <span className="stat-number">{stat.value}</span>
-                        <span className="stat-text">{stat.label}</span>
+                      <div key={stat.id} className="text-center">
+                        <p className="text-2xl font-bold text-blue-400">{stat.value}</p>
+                        <p className="text-xs text-slate-400">{stat.label}</p>
                       </div>
                     ))
                   ) : (
                     <>
-                      <div className="stat-item">
-                        <span className="stat-number">98%</span>
-                        <span className="stat-text">Satisfaction</span>
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-blue-400">98%</p>
+                        <p className="text-xs text-slate-400">Satisfaction</p>
                       </div>
-                      <div className="stat-item">
-                        <span className="stat-number">24/7</span>
-                        <span className="stat-text">Support</span>
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-blue-400">24/7</p>
+                        <p className="text-xs text-slate-400">Support</p>
                       </div>
-                      <div className="stat-item">
-                        <span className="stat-number">3.2k</span>
-                        <span className="stat-text">Projects</span>
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-blue-400">3.2k</p>
+                        <p className="text-xs text-slate-400">Projects</p>
                       </div>
                     </>
                   )}
                 </div>
 
-                <div className="social-connect">
-                  <span>Follow Us</span>
-                  <div className="social-icons">
-                    <a href={settings.facebook_url || '#'} aria-label="Facebook"><i className="bi bi-facebook"></i></a>
-                    <a href={settings.twitter_url || '#'} aria-label="Twitter"><i className="bi bi-twitter-x"></i></a>
-                    <a href={settings.linkedin_url || '#'} aria-label="LinkedIn"><i className="bi bi-linkedin"></i></a>
-                    <a href={settings.instagram_url || '#'} aria-label="Instagram"><i className="bi bi-instagram"></i></a>
+                {/* Social */}
+                <div>
+                  <p className="text-sm text-slate-400 mb-3">Follow Us</p>
+                  <div className="flex gap-3">
+                    <a href={settings.facebook_url || '#'} aria-label="Facebook" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-blue-500 transition-colors">
+                      <Facebook className="w-5 h-5" />
+                    </a>
+                    <a href={settings.twitter_url || '#'} aria-label="Twitter" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-blue-500 transition-colors">
+                      <Twitter className="w-5 h-5" />
+                    </a>
+                    <a href={settings.linkedin_url || '#'} aria-label="LinkedIn" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-blue-500 transition-colors">
+                      <Linkedin className="w-5 h-5" />
+                    </a>
+                    <a href={settings.instagram_url || '#'} aria-label="Instagram" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-blue-500 transition-colors">
+                      <Instagram className="w-5 h-5" />
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="col-lg-7" data-aos="fade-left" data-aos-delay="300">
-              <div className="form-card">
-                <div className="form-card-header">
-                  <div className="header-icon">
-                    <i className="bi bi-send-fill"></i>
+            {/* Form */}
+            <div className="lg:col-span-7">
+              <div className="bg-white rounded-2xl shadow-lg p-8 h-full">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center">
+                    <Send className="w-6 h-6 text-blue-600" />
                   </div>
-                  <div className="header-text">
-                    <h4>Send Us a Message</h4>
-                    <p>Fill out the form and our team will respond within 24 hours.</p>
+                  <div>
+                    <h4 className="text-xl font-bold text-gray-900">Send Us a Message</h4>
+                    <p className="text-gray-500">Fill out the form and our team will respond within 24 hours.</p>
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="php-email-form">
-                  <div className="row g-4">
-                    <div className="col-md-6">
-                      <div className="input-group-custom">
-                        <label>Your Name *</label>
-                        <div className="input-wrapper">
-                          <i className="bi bi-person"></i>
-                          <input 
-                            type="text" 
-                            name="name" 
-                            placeholder="John Doe" 
-                            required 
-                            value={formData.name}
-                            onChange={handleChange}
-                          />
-                        </div>
+                <form onSubmit={handleSubmit} noValidate className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="relative">
+                      <label className={labelClasses}>Your Name *</label>
+                      <div className="relative">
+                       
+                        <input 
+                          type="text" 
+                          name="name" 
+                          placeholder="John Doe" 
+                          required 
+                          value={formData.name}
+                          onChange={handleChange}
+                          className={inputClasses}
+                        />
                       </div>
                     </div>
 
-                    <div className="col-md-6">
-                      <div className="input-group-custom">
-                        <label>Email Address *</label>
-                        <div className="input-wrapper">
-                          <i className="bi bi-envelope"></i>
-                          <input 
-                            type="email" 
-                            name="email" 
-                            placeholder="john@example.com" 
-                            required 
-                            value={formData.email}
-                            onChange={handleChange}
-                          />
-                        </div>
+                    <div className="relative">
+                      <label className={labelClasses}>Email Address *</label>
+                      <div className="relative">
+                        <input 
+                          type="email" 
+                          name="email" 
+                          placeholder="john@example.com" 
+                          required 
+                          value={formData.email}
+                          onChange={handleChange}
+                          className={inputClasses}
+                        />
                       </div>
                     </div>
 
-                    <div className="col-md-6">
-                      <div className="input-group-custom">
-                        <label>Phone Number</label>
-                        <div className="input-wrapper">
-                          <i className="bi bi-telephone"></i>
-                          <input 
-                            type="tel" 
-                            name="phone" 
-                            placeholder="+92 300 1234567" 
-                            value={formData.phone}
-                            onChange={handleChange}
-                          />
-                        </div>
+                    <div className="relative">
+                      <label className={labelClasses}>Phone Number</label>
+                      <div className="relative">
+                        <input 
+                          type="tel" 
+                          name="phone" 
+                          placeholder="+92 300 1234567" 
+                          value={formData.phone}
+                          onChange={handleChange}
+                          className={inputClasses}
+                        />
                       </div>
                     </div>
 
-                    <div className="col-md-6">
-                      <div className="input-group-custom">
-                        <label>Subject</label>
-                        <div className="input-wrapper">
-                          <i className="bi bi-chat-square-text"></i>
-                          <input 
-                            type="text" 
-                            name="subject" 
-                            placeholder="How can we help?" 
-                            value={formData.subject}
-                            onChange={handleChange}
-                          />
-                        </div>
+                    <div className="relative">
+                      <label className={labelClasses}>Subject</label>
+                      <div className="relative">
+                        <input 
+                          type="text" 
+                          name="subject" 
+                          placeholder="How can we help?" 
+                          value={formData.subject}
+                          onChange={handleChange}
+                          className={inputClasses}
+                        />
                       </div>
                     </div>
 
-                    <div className="col-12">
-                      <div className="input-group-custom">
-                        <label>Your Message *</label>
-                        <div className="input-wrapper textarea-wrapper">
-                          <i className="bi bi-pencil-square"></i>
-                          <textarea 
-                            name="message" 
-                            rows={5} 
-                            placeholder="Tell us about your project..." 
-                            required 
-                            value={formData.message}
-                            onChange={handleChange}
-                          ></textarea>
-                        </div>
+                    <div className="md:col-span-2">
+                      <label className={labelClasses}>Your Message *</label>
+                      <div className="relative">
+                        <textarea 
+                          name="message" 
+                          rows={5}
+                          placeholder="Tell us about your project..." 
+                          required 
+                          value={formData.message}
+                          onChange={handleChange}
+                          className={`${inputClasses} resize-none pl-12`}
+                        ></textarea>
                       </div>
                     </div>
                   </div>
 
-                  <div className="form-actions">
-                    <button type="submit" className="btn-submit" disabled={status === 'loading'}>
+                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pt-4 border-t border-gray-100">
+                    <button 
+                      type="submit" 
+                      disabled={status === 'loading'}
+                      className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    >
                       {status === 'loading' ? (
                         <>
-                          <span>Sending...</span>
-                          <i className="bi bi-arrow-right-circle-fill"></i>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          Sending...
                         </>
                       ) : (
                         <>
-                          <span>Send Message</span>
-                          <i className="bi bi-arrow-right-circle-fill"></i>
+                          Send Message
+                          <Send className="w-4 h-4" />
                         </>
                       )}
                     </button>
 
-                    <div className="secure-note">
-                      <i className="bi bi-lock-fill"></i>
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <Lock className="w-4 h-4 text-green-500" />
                       <span>Your data is encrypted and secure</span>
                     </div>
                   </div>
