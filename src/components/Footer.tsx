@@ -12,7 +12,20 @@ export default function Footer() {
         <div className="row gy-4">
           <div className="col-lg-3 col-md-6 footer-info">
             <Link href="/" className="logo d-flex align-items-center mb-4">
-              <span className="sitename">{loading ? '...' : settings.company_name}</span>
+              {loading ? (
+                <span className="sitename">...</span>
+              ) : settings.logo_type === 'image' && settings.logo_image ? (
+                <img 
+                  src={settings.logo_image} 
+                  alt={settings.company_name || 'Logo'} 
+                  style={{
+                    height: "50px",
+                    maxHeight: "50px",
+                  }}
+                />
+              ) : (
+                <span className="sitename">{settings.company_name}</span>
+              )}
             </Link>
             <p>
               {loading ? 'Loading...' : settings.company_description}

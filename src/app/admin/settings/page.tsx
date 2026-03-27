@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface Settings {
   company_name: string;
@@ -8,6 +8,9 @@ interface Settings {
   company_phone: string;
   company_address: string;
   company_description: string;
+  logo_type: 'image' | 'text';
+  logo_image: string;
+  favicon: string;
   facebook_url: string;
   twitter_url: string;
   linkedin_url: string;
@@ -21,6 +24,9 @@ export default function SettingsPage() {
     company_phone: '',
     company_address: '',
     company_description: '',
+    logo_type: 'text',
+    logo_image: '',
+    favicon: '',
     facebook_url: '',
     twitter_url: '',
     linkedin_url: '',
@@ -29,6 +35,9 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [uploading, setUploading] = useState<string | null>(null);
+  const logoInputRef = useRef<HTMLInputElement>(null);
+  const faviconInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetchSettings();
@@ -38,7 +47,13 @@ export default function SettingsPage() {
     try {
       const res = await fetch('/api/settings');
       const data = await res.json();
-      setSettings(prev => ({ ...prev, ...data }));
+      setSettings(prev => ({ 
+        ...prev, 
+        ...data,
+        logo_type: data.logo_type || 'text',
+        logo_image: data.logo_image || '',
+        favicon: data.favicon || ''
+      }));
     } catch (error) {
       console.error('Failed to fetch settings:', error);
     } finally {
@@ -48,6 +63,51 @@ export default function SettingsPage() {
 
   const handleChange = (key: keyof Settings, value: string) => {
     setSettings(prev => ({ ...prev, [key]: value }));
+  };
+
+  const handleLogoTypeChange = (type: 'image' | 'text') => {
+    setSettings(prev => ({ ...prev, logo_type: type }));
+  };
+
+  const handleImageUpload = async (file: File, field: 'logo_image' | 'favicon') => {
+    setUploading(field);
+    
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData
+      });
+      
+      const data = await res.json();
+      
+      if (res.ok && data.url) {
+        handleChange(field, data.url);
+        setMessage({ type: 'success', text: 'Image uploaded successfully!' });
+      } else {
+        setMessage({ type: 'error', text: data.error || 'Failed to upload image' });
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: 'Failed to upload image' });
+    } finally {
+      setUploading(null);
+    }
+  };
+
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleImageUpload(file, 'logo_image');
+    }
+  };
+
+  const handleFaviconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleImageUpload(file, 'favicon');
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -96,6 +156,155 @@ export default function SettingsPage() {
       )}
 
       <form onSubmit={handleSubmit}>
+        {/* Logo & Branding Section */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h2 className="text-lg font-semibold text-gray-800">Logo & Branding</h2>
+          </div>
+          
+          <div className="p-6 space-y-6">
+            {/* Logo Type Selection */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Logo Type</label>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="logo_type"
+                    checked={settings.logo_type === 'text'}
+                    onChange={() => handleLogoTypeChange('text')}
+                    className="w-4 h-4 text-blue-600"
+                  />
+                  <span className="text-sm text-gray-700">Text Logo</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="logo_type"
+                    checked={settings.logo_type === 'image'}
+                    onChange={() => handleLogoTypeChange('image')}
+                    className="w-4 h-4 text-blue-600"
+                  />
+                  <span className="text-sm text-gray-700">Image Logo</span>
+                </label>
+              </div>
+            </div>
+
+            {/* Image Logo Upload */}
+            {settings.logo_type === 'image' && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Upload Logo (PNG, SVG, JPG)
+                </label>
+                <div className="flex items-start gap-4">
+                  <div className="w-48 h-24 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50 overflow-hidden">
+                    {settings.logo_image ? (
+                      <img src={settings.logo_image} alt="Logo" className="max-w-full max-h-full object-contain" />
+                    ) : (
+                      <span className="text-gray-400 text-sm">No logo uploaded</span>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <input
+                      ref={logoInputRef}
+                      type="file"
+                      accept="image/png,image/svg+xml,image/jpeg,image/webp"
+                      onChange={handleLogoChange}
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => logoInputRef.current?.click()}
+                      disabled={uploading === 'logo_image'}
+                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center gap-2"
+                    >
+                      {uploading === 'logo_image' ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          Uploading...
+                        </>
+                      ) : (
+                        <>
+                          <i className="bi bi-upload"></i>
+                          {settings.logo_image ? 'Replace Logo' : 'Upload Logo'}
+                        </>
+                      )}
+                    </button>
+                    <p className="text-xs text-gray-500 mt-2">Recommended: 200x60px for best results</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Favicon Upload */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Favicon (Browser Icon)
+              </label>
+              <div className="flex items-start gap-4">
+                <div className="w-16 h-16 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50 overflow-hidden">
+                  {settings.favicon ? (
+                    <img src={settings.favicon} alt="Favicon" className="w-full h-full object-contain" />
+                  ) : (
+                    <i className="bi bi-globe text-gray-400 text-2xl"></i>
+                  )}
+                </div>
+                <div className="flex-1">
+                  <input
+                    ref={faviconInputRef}
+                    type="file"
+                    accept="image/png,image/x-icon,image/svg+xml"
+                    onChange={handleFaviconChange}
+                    className="hidden"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => faviconInputRef.current?.click()}
+                    disabled={uploading === 'favicon'}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center gap-2"
+                  >
+                    {uploading === 'favicon' ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        Uploading...
+                      </>
+                    ) : (
+                      <>
+                        <i className="bi bi-upload"></i>
+                        {settings.favicon ? 'Replace Favicon' : 'Upload Favicon'}
+                      </>
+                    )}
+                  </button>
+                  <p className="text-xs text-gray-500 mt-2">Recommended: 32x32px or 48x48px PNG</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Logo Preview */}
+            <div className="pt-4 border-t border-gray-200">
+              <h3 className="text-sm font-medium text-gray-700 mb-3">Preview</h3>
+              <div className="flex items-center gap-8 p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center gap-2">
+                  {settings.logo_type === 'image' && settings.logo_image ? (
+                    <img src={settings.logo_image} alt="Logo Preview" className="h-10 w-auto" />
+                  ) : (
+                    <span className="text-2xl font-bold text-gray-800">{settings.company_name || 'Company Name'}</span>
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  {settings.favicon ? (
+                    <img src={settings.favicon} alt="Favicon Preview" className="w-6 h-6" />
+                  ) : (
+                    <div className="w-6 h-6 bg-blue-600 rounded"></div>
+                  )}
+                  <span className="text-sm text-gray-500">Browser Tab</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Company Information Section */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
           <div className="px-6 py-4 border-b border-gray-200">
             <h2 className="text-lg font-semibold text-gray-800">Company Information</h2>
@@ -156,6 +365,7 @@ export default function SettingsPage() {
           </div>
         </div>
 
+        {/* Social Media Links Section */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
           <div className="px-6 py-4 border-b border-gray-200">
             <h2 className="text-lg font-semibold text-gray-800">Social Media Links</h2>

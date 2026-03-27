@@ -8,6 +8,9 @@ interface Settings {
   company_phone: string;
   company_address: string;
   company_description: string;
+  logo_type: 'image' | 'text';
+  logo_image: string;
+  favicon: string;
   facebook_url: string;
   twitter_url: string;
   linkedin_url: string;
@@ -25,6 +28,9 @@ const defaultSettings: Settings = {
   company_phone: '+92 311 1588908',
   company_address: '',
   company_description: 'Building innovative digital solutions for your business.',
+  logo_type: 'text',
+  logo_image: '',
+  favicon: '',
   facebook_url: '#',
   twitter_url: '#',
   linkedin_url: '#',
