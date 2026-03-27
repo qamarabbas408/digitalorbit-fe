@@ -32,7 +32,7 @@ export default function Header() {
             <li>
               <Link href="/#team">Team</Link>
             </li>
-            <li className="dropdown">
+            {/* <li className="dropdown">
               <Link href="#">
                 <span>Dropdown</span>{" "}
                 <i className="bi bi-chevron-down toggle-dropdown"></i>
@@ -74,7 +74,7 @@ export default function Header() {
                   <Link href="#">Dropdown 4</Link>
                 </li>
               </ul>
-            </li>
+            </li> */}
             <li>
               <Link href="/#contact">Contact</Link>
             </li>
