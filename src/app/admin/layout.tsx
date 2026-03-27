@@ -138,10 +138,11 @@ export default function AdminLayout({
     { href: '/admin', icon: 'bi-speedometer2', label: 'Dashboard' },
     { href: '/admin/projects', icon: 'bi-briefcase', label: 'Projects' },
     { href: '/admin/categories', icon: 'bi-tags', label: 'Categories' },
+    { href: '/admin/services', icon: 'bi-gear', label: 'Services' },
     { href: '/admin/team', icon: 'bi-people', label: 'Team' },
     { href: '/admin/testimonials', icon: 'bi-chat-quote', label: 'Testimonials' },
     { href: '/admin/contacts', icon: 'bi-envelope', label: 'Contacts' },
-    { href: '/admin/settings', icon: 'bi-gear', label: 'Settings' },
+    { href: '/admin/settings', icon: 'bi-sliders', label: 'Settings' },
   ];
 
   return (

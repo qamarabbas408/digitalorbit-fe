@@ -1,112 +1,91 @@
-import React from 'react';
+'use client';
+
+import { useState, useEffect } from 'react';
+
+interface Service {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  featured: boolean;
+  displayOrder: number;
+  status: string;
+}
 
 export default function Services() {
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  const fetchServices = async () => {
+    try {
+      const res = await fetch('/api/services?status=published');
+      const data = await res.json();
+      setServices(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Failed to fetch services:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return null;
+  }
+
+  const publishedServices = services.filter(s => s.status === 'published');
+  const featuredServices = services.filter(s => s.featured && s.status === 'published');
+  const regularServices = publishedServices.filter(s => !s.featured);
+
   return (
     <section id="services" className="services section">
-      {/* Section Title */}
       <div className="container section-title" data-aos="fade-up">
         <h2>Services</h2>
         <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div>{/* End Section Title */}
+      </div>
 
       <div className="container" data-aos="fade-up" data-aos-delay="100">
         <div className="row g-4">
-          {/* Service Card 1 */}
-          <div className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <div className="service-card">
-              <div className="icon-wrapper">
-                <i className="bi bi-lightbulb"></i>
+          {featuredServices.map((service, index) => (
+            <div key={service.id} className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay={(index + 1) * 100}>
+              <div className="service-card featured">
+                <div className="featured-badge">
+                  <i className="bi bi-star-fill"></i>
+                  <span>Popular</span>
+                </div>
+                <div className="icon-wrapper">
+                  <i className={`bi ${service.icon}`}></i>
+                </div>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <a href="/service-details" className="service-link">
+                  <span>Discover More</span>
+                  <i className="bi bi-arrow-right"></i>
+                </a>
               </div>
-              <h3>Strategic Consulting</h3>
-              <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-              <a href="/service-details" className="service-link">
-                <span>Discover More</span>
-                <i className="bi bi-arrow-right"></i>
-              </a>
             </div>
-          </div>{/* End Service Card */}
+          ))}
 
-          {/* Service Card 2 */}
-          <div className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div className="service-card">
-              <div className="icon-wrapper">
-                <i className="bi bi-graph-up-arrow"></i>
+          {regularServices.map((service, index) => (
+            <div key={service.id} className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay={(featuredServices.length + index + 1) * 100}>
+              <div className="service-card">
+                <div className="icon-wrapper">
+                  <i className={`bi ${service.icon}`}></i>
+                </div>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <a href="/service-details" className="service-link">
+                  <span>Discover More</span>
+                  <i className="bi bi-arrow-right"></i>
+                </a>
               </div>
-              <h3>Growth Analytics</h3>
-              <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>
-              <a href="/service-details" className="service-link">
-                <span>Discover More</span>
-                <i className="bi bi-arrow-right"></i>
-              </a>
             </div>
-          </div>{/* End Service Card */}
-
-          {/* Service Card 3 - Featured */}
-          <div className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div className="service-card featured">
-              <div className="featured-badge">
-                <i className="bi bi-star-fill"></i>
-                <span>Popular</span>
-              </div>
-              <div className="icon-wrapper">
-                <i className="bi bi-palette"></i>
-              </div>
-              <h3>Creative Design</h3>
-              <p>Praesent commodo cursus magna vel scelerisque nisl consectetur et vivamus sagittis.</p>
-              <a href="/service-details" className="service-link">
-                <span>Discover More</span>
-                <i className="bi bi-arrow-right"></i>
-              </a>
-            </div>
-          </div>{/* End Service Card */}
-
-          {/* Service Card 4 */}
-          <div className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <div className="service-card">
-              <div className="icon-wrapper">
-                <i className="bi bi-code-slash"></i>
-              </div>
-              <h3>Web Development</h3>
-              <p>Cras mattis consectetur purus sit amet fermentum aenean lacinia bibendum nulla sed.</p>
-              <a href="/service-details" className="service-link">
-                <span>Discover More</span>
-                <i className="bi bi-arrow-right"></i>
-              </a>
-            </div>
-          </div>{/* End Service Card */}
-
-          {/* Service Card 5 */}
-          <div className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div className="service-card">
-              <div className="icon-wrapper">
-                <i className="bi bi-megaphone"></i>
-              </div>
-              <h3>Digital Marketing</h3>
-              <p>Donec ullamcorper nulla non metus auctor fringilla vestibulum id ligula porta felis.</p>
-              <a href="/service-details" className="service-link">
-                <span>Discover More</span>
-                <i className="bi bi-arrow-right"></i>
-              </a>
-            </div>
-          </div>{/* End Service Card */}
-
-          {/* Service Card 6 */}
-          <div className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div className="service-card">
-              <div className="icon-wrapper">
-                <i className="bi bi-shield-check"></i>
-              </div>
-              <h3>Security Solutions</h3>
-              <p>Maecenas sed diam eget risus varius blandit sit amet non magna integer posuere erat.</p>
-              <a href="/service-details" className="service-link">
-                <span>Discover More</span>
-                <i className="bi bi-arrow-right"></i>
-              </a>
-            </div>
-          </div>{/* End Service Card */}
+          ))}
         </div>
 
-        {/* Stats Row */}
         <div className="stats-row" data-aos="fade-up" data-aos-delay="400">
           <div className="row g-4 justify-content-center">
             <div className="col-6 col-md-3">
