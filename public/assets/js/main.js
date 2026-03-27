@@ -67,16 +67,27 @@
   /**
    * Preloader
    */
-  const preloader = document.querySelector('#preloader');
-  if (preloader) {
-    if (document.readyState === 'complete') {
+  function hidePreloader() {
+    const preloader = document.querySelector('#preloader');
+    if (preloader) {
       preloader.remove();
-    } else {
-      window.addEventListener('load', () => {
-        preloader.remove();
-      });
     }
   }
+
+  if (document.readyState === 'complete') {
+    hidePreloader();
+  } else {
+    window.addEventListener('load', hidePreloader);
+  }
+
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+      hidePreloader();
+    }
+  });
+
+  // Handle preloader on Next.js client-side navigation (Back/Forward)
+  window.addEventListener('popstate', hidePreloader);
 
   /**
    * Scroll top button
@@ -211,18 +222,28 @@
     }
   };
 
-  if (document.readyState === 'complete') {
+  function initHashScroll() {
     hashScroll();
-  } else {
-    window.addEventListener('load', hashScroll);
+    // Re-init AOS after hash navigation
+    if (typeof aosInit === 'function') {
+      aosInit();
+    }
   }
+
+  if (document.readyState === 'complete') {
+    initHashScroll();
+  } else {
+    window.addEventListener('load', initHashScroll);
+  }
+
+  // Handle hash scrolling on browser back/forward navigation
+  window.addEventListener('popstate', initHashScroll);
 
   /**
    * Navmenu Scrollspy
    */
-  let navmenulinks = document.querySelectorAll('.navmenu a');
-
   function navmenuScrollspy() {
+    const navmenulinks = document.querySelectorAll('.navmenu a');
     navmenulinks.forEach(navmenulink => {
       if (!navmenulink.hash) return;
       let section = document.querySelector(navmenulink.hash);
@@ -236,11 +257,17 @@
       }
     })
   }
+
   if (document.readyState === 'complete') {
     navmenuScrollspy();
   } else {
     window.addEventListener('load', navmenuScrollspy);
   }
   document.addEventListener('scroll', navmenuScrollspy);
+  
+  // Re-init navmenu on client-side navigation
+  window.addEventListener('popstate', () => {
+    setTimeout(navmenuScrollspy, 100);
+  });
 
 })();

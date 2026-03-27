@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 interface Project {
   id: string;
@@ -145,7 +146,7 @@ export default function Portfolio() {
                   className={`col-lg-4 col-md-6 portfolio-item ${getFilterClass(project.categoryId)}`}
                 >
                   <div className={`project-card ${project.featured ? 'featured' : ''}`}>
-                    <div className="image-wrapper">
+                    <Link href={`/portfolio/${project.id}`} className="image-wrapper">
                       <img 
                         src={project.image || '/assets/img/portfolio/portfolio-1.webp'} 
                         alt={project.title} 
@@ -154,16 +155,12 @@ export default function Portfolio() {
                       />
                       <div className="hover-overlay">
                         <div className="overlay-actions">
-                          <a 
-                            href={project.image || '/assets/img/portfolio/portfolio-1.webp'} 
-                            className="glightbox action-btn" 
-                            data-gallery="portfolio"
-                          >
+                          <span className="action-btn">
                             <i className="bi bi-eye"></i>
-                          </a>
-                          <a href={project.url} className="action-btn" target="_blank" rel="noopener noreferrer">
-                            <i className="bi bi-link-45deg"></i>
-                          </a>
+                          </span>
+                          <span className="action-btn">
+                            <i className="bi bi-arrow-right-short"></i>
+                          </span>
                         </div>
                       </div>
                       <span className="category-badge">{getCategoryName(project.categoryId)}</span>
@@ -172,9 +169,11 @@ export default function Portfolio() {
                           <i className="bi bi-star-fill"></i> Featured
                         </span>
                       )}
-                    </div>
+                    </Link>
                     <div className="project-info">
-                      <h3>{project.title}</h3>
+                      <Link href={`/portfolio/${project.id}`}>
+                        <h3>{project.title}</h3>
+                      </Link>
                       {project.subtitle && <p className="project-subtitle">{project.subtitle}</p>}
                       <p className="project-description">{project.description}</p>
                       <div className="project-meta">
@@ -185,6 +184,9 @@ export default function Portfolio() {
                         </div>
                         <span className="year">{project.year}</span>
                       </div>
+                      <Link href={`/portfolio/${project.id}`} className="view-details-btn">
+                        View Details <i className="bi bi-arrow-right"></i>
+                      </Link>
                     </div>
                   </div>
                 </div>
