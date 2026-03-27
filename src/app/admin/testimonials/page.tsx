@@ -237,7 +237,7 @@ export default function TestimonialsPage() {
       {/* Add/Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]" onClick={() => setShowModal(false)}>
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto z-[10000]" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto scrollbar-light z-[10000]" onClick={(e) => e.stopPropagation()}>
             <div className="p-6 border-b">
               <h2 className="text-2xl font-bold text-gray-900">
                 {editingId ? 'Edit Testimonial' : 'Add Testimonial'}

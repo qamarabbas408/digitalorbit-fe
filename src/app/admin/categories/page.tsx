@@ -189,7 +189,7 @@ export default function CategoriesPage() {
           <div className="flex min-h-screen items-center justify-center p-4">
             <div className="fixed inset-0 bg-black/50 transition-opacity" onClick={closeModal}></div>
             <div 
-              className="relative bg-white rounded-xl shadow-xl max-w-md w-full"
+              className="relative bg-white rounded-xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto scrollbar-light"
               onClick={e => e.stopPropagation()}
             >
               <div className="border-b border-gray-200 px-6 py-4 flex justify-between items-center">

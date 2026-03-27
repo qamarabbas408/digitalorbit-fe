@@ -126,7 +126,7 @@ export default function ContactsPage() {
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-1 bg-white rounded-xl shadow-sm overflow-hidden">
-            <div className="divide-y max-h-[600px] overflow-y-auto">
+            <div className="divide-y max-h-[600px] overflow-y-auto scrollbar-light">
               {filteredContacts.map((contact) => (
                 <button
                   key={contact.id}
