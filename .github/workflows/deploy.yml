@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
 
     steps:
       - name: Checkout code
@@ -45,41 +44,10 @@ jobs:
           path: .next
           retention-days: 7
 
-  deploy-staging:
+  deploy:
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
-    environment: staging
-    
-    steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-output
-          path: .next
-
-      - name: Deploy to Staging Server via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-        with:
-          server: ${{ secrets.STAGING_FTP_SERVER }}
-          username: ${{ secrets.STAGING_FTP_USERNAME }}
-          password: ${{ secrets.STAGING_FTP_PASSWORD }}
-          local-dir: ./
-          port: 21
-          exclude: |
-            **/.git*
-            **/.github/**
-            **/node_modules/**
-            **/.env*
-            **/README.md
-            **/features.md
-            **/*.sql
-
-  deploy-production:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-    environment: production
+    if: github.event_name == 'push'
     
     steps:
       - name: Download build artifacts
