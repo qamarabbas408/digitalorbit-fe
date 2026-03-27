@@ -92,12 +92,13 @@ export default function AdminLayout({
     { href: '/admin/projects', icon: 'bi-briefcase', label: 'Projects' },
     { href: '/admin/categories', icon: 'bi-tags', label: 'Categories' },
     { href: '/admin/team', icon: 'bi-people', label: 'Team' },
+    { href: '/admin/testimonials', icon: 'bi-chat-quote', label: 'Testimonials' },
     { href: '/admin/settings', icon: 'bi-gear', label: 'Settings' },
   ];
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <aside className="w-64 bg-slate-900 text-white flex flex-col fixed h-screen">
+      <aside className="w-64 bg-slate-900 text-white flex flex-col fixed h-screen z-40">
         <div className="px-6 py-5 border-b border-slate-700 flex items-center gap-3">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
             <i className="bi bi-hexagon text-lg"></i>
