@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { showToast } from '@/components/CustomToaster';
 
 interface Stat {
   id: string;
@@ -118,8 +119,10 @@ export default function StatsPage() {
       }
       closeModal();
       fetchStats();
+      showToast.success(editingStat ? 'Stat updated successfully!' : 'Stat created successfully!');
     } catch (error) {
       console.error('Failed to save stat:', error);
+      showToast.error('Failed to save stat. Please try again.');
     }
   };
 
@@ -129,8 +132,10 @@ export default function StatsPage() {
     try {
       await fetch(`/api/stats/${id}`, { method: 'DELETE' });
       fetchStats();
+      showToast.success('Stat deleted successfully!');
     } catch (error) {
       console.error('Failed to delete stat:', error);
+      showToast.error('Failed to delete stat. Please try again.');
     }
   };
 

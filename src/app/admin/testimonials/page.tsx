@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { showToast } from '@/components/CustomToaster';
 
 interface Testimonial {
   id: string;
@@ -68,8 +69,10 @@ export default function TestimonialsPage() {
       setShowModal(false);
       resetForm();
       fetchTestimonials();
+      showToast.success(editingId ? 'Testimonial updated successfully!' : 'Testimonial created successfully!');
     } catch (error) {
       console.error('Failed to save testimonial:', error);
+      showToast.error('Failed to save testimonial. Please try again.');
     }
   };
 
@@ -95,8 +98,10 @@ export default function TestimonialsPage() {
       await fetch(`/api/testimonials/${deleteId}`, { method: 'DELETE' });
       setDeleteId(null);
       fetchTestimonials();
+      showToast.success('Testimonial deleted successfully!');
     } catch (error) {
       console.error('Failed to delete testimonial:', error);
+      showToast.error('Failed to delete testimonial. Please try again.');
     }
   };
 

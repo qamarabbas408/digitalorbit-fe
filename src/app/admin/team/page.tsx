@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { showToast } from '@/components/CustomToaster';
 
 interface TeamMember {
   id: string;
@@ -97,8 +98,10 @@ export default function TeamPage() {
       }
       closeModal();
       fetchMembers();
+      showToast.success(editingMember ? 'Team member updated successfully!' : 'Team member created successfully!');
     } catch (error) {
       console.error('Failed to save team member:', error);
+      showToast.error('Failed to save team member. Please try again.');
     }
   };
 
@@ -108,8 +111,10 @@ export default function TeamPage() {
     try {
       await fetch(`/api/team/${id}`, { method: 'DELETE' });
       fetchMembers();
+      showToast.success('Team member deleted successfully!');
     } catch (error) {
       console.error('Failed to delete team member:', error);
+      showToast.error('Failed to delete team member. Please try again.');
     }
   };
 

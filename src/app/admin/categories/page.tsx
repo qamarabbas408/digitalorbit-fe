@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { showToast } from '@/components/CustomToaster';
 
 interface Category {
   id: string;
@@ -78,8 +79,10 @@ export default function CategoriesPage() {
       }
       closeModal();
       fetchCategories();
+      showToast.success(editingCategory ? 'Category updated successfully!' : 'Category created successfully!');
     } catch (error) {
       console.error('Failed to save category:', error);
+      showToast.error('Failed to save category. Please try again.');
     }
   };
 
@@ -89,8 +92,10 @@ export default function CategoriesPage() {
     try {
       await fetch(`/api/portfolio/categories?id=${id}`, { method: 'DELETE' });
       fetchCategories();
+      showToast.success('Category deleted successfully!');
     } catch (error) {
       console.error('Failed to delete category:', error);
+      showToast.error('Failed to delete category. Please try again.');
     }
   };
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { showToast } from '@/components/CustomToaster';
 
 interface Project {
   id: string;
@@ -142,8 +143,10 @@ export default function ProjectsPage() {
       }
       closeModal();
       fetchData();
+      showToast.success(editingProject ? 'Project updated successfully!' : 'Project created successfully!');
     } catch (error) {
       console.error('Failed to save project:', error);
+      showToast.error('Failed to save project. Please try again.');
     }
   };
 
@@ -153,8 +156,10 @@ export default function ProjectsPage() {
     try {
       await fetch(`/api/portfolio/projects/${id}`, { method: 'DELETE' });
       fetchData();
+      showToast.success('Project deleted successfully!');
     } catch (error) {
       console.error('Failed to delete project:', error);
+      showToast.error('Failed to delete project. Please try again.');
     }
   };
 

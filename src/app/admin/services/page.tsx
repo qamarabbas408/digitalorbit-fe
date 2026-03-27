@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { showToast } from '@/components/CustomToaster';
 
 interface Service {
   id: string;
@@ -103,8 +104,10 @@ export default function ServicesPage() {
       }
       closeModal();
       fetchServices();
+      showToast.success(editingService ? 'Service updated successfully!' : 'Service created successfully!');
     } catch (error) {
       console.error('Failed to save service:', error);
+      showToast.error('Failed to save service. Please try again.');
     }
   };
 
@@ -114,8 +117,10 @@ export default function ServicesPage() {
     try {
       await fetch(`/api/services/${id}`, { method: 'DELETE' });
       fetchServices();
+      showToast.success('Service deleted successfully!');
     } catch (error) {
       console.error('Failed to delete service:', error);
+      showToast.error('Failed to delete service. Please try again.');
     }
   };
 

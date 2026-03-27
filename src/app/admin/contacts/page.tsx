@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { showToast } from '@/components/CustomToaster';
 
 interface Contact {
   id: number;
@@ -44,8 +45,10 @@ export default function ContactsPage() {
         body: JSON.stringify({ status: 'read' })
       });
       fetchContacts();
+      showToast.success('Contact marked as read!');
     } catch (error) {
       console.error('Failed to update contact:', error);
+      showToast.error('Failed to update contact. Please try again.');
     }
   };
 
@@ -57,8 +60,10 @@ export default function ContactsPage() {
       setDeleteId(null);
       setSelectedContact(null);
       fetchContacts();
+      showToast.success('Contact deleted successfully!');
     } catch (error) {
       console.error('Failed to delete contact:', error);
+      showToast.error('Failed to delete contact. Please try again.');
     }
   };
 
