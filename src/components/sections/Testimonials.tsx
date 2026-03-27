@@ -47,10 +47,12 @@ export default function Testimonials() {
 
   if (loading) {
     return (
-      <section id="testimonials" className="testimonials section">
-        <div className="container section-title" data-aos="fade-up">
-          <h2>Testimonials</h2>
-          <p>Loading testimonials...</p>
+      <section id="testimonials" className="section">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Testimonials</h2>
+            <p className="text-slate-500">Loading testimonials...</p>
+          </div>
         </div>
       </section>
     );
@@ -58,56 +60,71 @@ export default function Testimonials() {
 
   if (testimonials.length === 0) {
     return (
-      <section id="testimonials" className="testimonials section">
-        <div className="container section-title" data-aos="fade-up">
-          <h2>Testimonials</h2>
-          <p>What our clients say about us</p>
+      <section id="testimonials" className="section">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Testimonials</h2>
+            <p className="text-slate-500">What our clients say about us</p>
+          </div>
         </div>
       </section>
     );
   }
 
   return (
-    <section id="testimonials" className="testimonials section">
-      <div className="container section-title" data-aos="fade-up">
-        <h2>Testimonials</h2>
-        <p>What our clients say about us</p>
-      </div>
+    <section id="testimonials" className="section">
+      <div className="container">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Testimonials</h2>
+          <p className="text-slate-500">What our clients say about us</p>
+        </div>
 
-      <div className="container" data-aos="fade-up" data-aos-delay="100">
-        <div className="row">
-          <div className="col-lg-4" data-aos="fade-right" data-aos-delay="150">
-            <div className="testimonials-sidebar">
-              <div className="avatar-stack">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          <div className="lg:col-span-1" data-aos="fade-right" data-aos-delay="150">
+            <div className="bg-gradient-to-br from-slate-800 to-slate-900 p-8 rounded-2xl text-white sticky top-24">
+              <div className="flex -space-x-3 mb-6">
                 {testimonials.slice(0, 4).map((t, i) => (
                   <div 
                     key={t.id} 
-                    className="avatar" 
-                    style={{ zIndex: 4 - i }}
+                    className="relative z-10 w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-slate-800 flex items-center justify-center text-sm font-bold overflow-hidden"
                   >
                     {t.image ? (
-                      <img src={t.image} alt={t.name} loading="lazy" />
+                      <img src={t.image} alt={t.name} className="w-full h-full object-cover" />
                     ) : (
                       <span>{getInitials(t.name)}</span>
                     )}
                   </div>
                 ))}
-                <span className="avatar-count">+{testimonials.length}</span>
+                <div className="w-12 h-12 rounded-full bg-blue-500 border-2 border-slate-800 flex items-center justify-center text-sm font-bold">
+                  +{testimonials.length}
+                </div>
               </div>
-              <div className="sidebar-content">
-                <span className="satisfied-badge">
-                  <i className="bi bi-heart-fill"></i> Satisfied Clients
+
+              <div className="space-y-4">
+                <span className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm font-medium">
+                  <i className="bi bi-heart-fill text-blue-400" />
+                  Satisfied Clients
                 </span>
-                <h3>Discover What Our Clients Say About Us</h3>
-                <p>We take pride in delivering exceptional results for our clients. Here&apos;s what they have to say about their experience working with us.</p>
-                <a href="#contact" className="btn-view-all">
-                  Work With Us <i className="bi bi-arrow-right"></i>
+                
+                <h3 className="text-2xl font-bold leading-tight">
+                  Discover What Our Clients Say About Us
+                </h3>
+                
+                <p className="text-slate-300 leading-relaxed">
+                  We take pride in delivering exceptional results for our clients. Here&apos;s what they have to say about their experience working with us.
+                </p>
+                
+                <a 
+                  href="#contact" 
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl font-semibold transition-colors"
+                >
+                  Work With Us <i className="bi bi-arrow-right" />
                 </a>
               </div>
             </div>
           </div>
 
-          <div className="col-lg-8" data-aos="fade-left" data-aos-delay="200">
+          <div className="lg:col-span-2" data-aos="fade-left" data-aos-delay="200">
             <div className="testimonials-carousel swiper init-swiper">
               <script type="application/json" className="swiper-config">
                 {JSON.stringify({
@@ -132,41 +149,42 @@ export default function Testimonials() {
               <div className="swiper-wrapper">
                 {testimonials.map((testimonial) => (
                   <div key={testimonial.id} className="swiper-slide">
-                    <div className="testimonial-card">
-                      <div className="card-top">
-                        <div className="stars">
+                    <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 h-full hover:shadow-xl transition-shadow">
+                      <div className="flex items-start justify-between mb-6">
+                        <div className="flex gap-1">
                           {[1, 2, 3, 4, 5].map((star) => (
                             <i 
                               key={star}
-                              className={`bi ${star <= testimonial.rating ? 'bi-star-fill' : 'bi-star'}`}
-                            ></i>
+                              className={`bi text-xl ${star <= testimonial.rating ? 'bi-star-fill text-amber-400' : 'bi-star text-slate-300'}`}
+                            />
                           ))}
                         </div>
-                        <span className="quote-mark">
-                          <i className="bi bi-quote"></i>
-                        </span>
+                        <i className="bi bi-quote text-4xl text-blue-100" />
                       </div>
-                      <p className="testimonial-text">{testimonial.content}</p>
-                      <div className="author-info">
+                      
+                      <p className="text-slate-600 leading-relaxed mb-6 text-lg">
+                        &ldquo;{testimonial.content}&rdquo;
+                      </p>
+                      
+                      <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
                         {testimonial.image ? (
                           <img 
                             src={testimonial.image} 
                             alt={testimonial.name} 
-                            className="author-img" 
-                            loading="lazy" 
+                            className="w-14 h-14 rounded-full object-cover" 
                           />
                         ) : (
-                          <div className="author-avatar">
+                          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg">
                             {getInitials(testimonial.name)}
                           </div>
                         )}
-                        <div className="author-details">
-                          <h5>{testimonial.name}</h5>
+                        <div>
+                          <h5 className="font-bold text-slate-800">{testimonial.name}</h5>
                           {testimonial.title && (
-                            <span>
+                            <p className="text-sm text-slate-500">
                               {testimonial.title}
                               {testimonial.company && ` at ${testimonial.company}`}
-                            </span>
+                            </p>
                           )}
                         </div>
                       </div>
@@ -175,7 +193,9 @@ export default function Testimonials() {
                 ))}
               </div>
 
-              {testimonials.length > 1 && <div className="swiper-pagination"></div>}
+              {testimonials.length > 1 && (
+                <div className="swiper-pagination mt-6" />
+              )}
             </div>
           </div>
         </div>
