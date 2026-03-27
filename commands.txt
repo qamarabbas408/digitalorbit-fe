@@ -1,3 +1,8 @@
 mysql -u root < "D:\personal-projects\templates\Orbit\digital-orbits-fe\src\lib\schema.sql"
 mysql -u root orbit_portfolio < src/lib/settings.sql
 mysql -u root orbit_portfolio < src/lib/team.sql
+
+
+For production testing, run:
+npm run build
+npm start

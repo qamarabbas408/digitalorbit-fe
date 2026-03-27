@@ -14,6 +14,12 @@ export async function GET(
     }
     
     const row = rows[0];
+    const galleryImages = row.gallery_images 
+      ? JSON.parse(row.gallery_images) 
+      : row.gallery 
+        ? JSON.parse(row.gallery) 
+        : [];
+    
     return NextResponse.json({
       id: row.id,
       title: row.title,
@@ -22,8 +28,8 @@ export async function GET(
       year: row.year,
       technologies: row.technologies ? JSON.parse(row.technologies) : [],
       description: row.description,
-      image: row.image,
-      gallery: row.gallery ? JSON.parse(row.gallery) : [],
+      image: row.image || '/assets/img/portfolio/placeholder.webp',
+      gallery: galleryImages,
       featured: Boolean(row.featured),
       client: row.client,
       url: row.url,
@@ -43,12 +49,13 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
+    const galleryImages = body.gallery || [];
     
     await pool.query(
       `UPDATE projects SET 
         title = ?, subtitle = ?, category_id = ?, year = ?, 
         technologies = ?, description = ?, image = ?, 
-        gallery = ?, featured = ?, client = ?, url = ?, status = ?
+        gallery_images = ?, featured = ?, client = ?, url = ?, status = ?
        WHERE id = ?`,
       [
         body.title,
@@ -58,7 +65,7 @@ export async function PUT(
         JSON.stringify(body.technologies || []),
         body.description || '',
         body.image || '',
-        JSON.stringify(body.gallery || []),
+        JSON.stringify(galleryImages),
         body.featured || false,
         body.client || '',
         body.url || '#',
@@ -74,6 +81,8 @@ export async function PUT(
     }
     
     const row = rows[0];
+    const gallery = row.gallery_images ? JSON.parse(row.gallery_images) : [];
+    
     return NextResponse.json({
       id: row.id,
       title: row.title,
@@ -82,8 +91,8 @@ export async function PUT(
       year: row.year,
       technologies: row.technologies ? JSON.parse(row.technologies) : [],
       description: row.description,
-      image: row.image,
-      gallery: row.gallery ? JSON.parse(row.gallery) : [],
+      image: row.image || '/assets/img/portfolio/placeholder.webp',
+      gallery: gallery,
       featured: Boolean(row.featured),
       client: row.client,
       url: row.url,

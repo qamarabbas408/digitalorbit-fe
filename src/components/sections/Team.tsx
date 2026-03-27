@@ -63,9 +63,12 @@ export default function Team() {
                 <div className="team-card">
                   <div className="member-img">
                     <img 
-                      src={member.image || '/assets/img/person/person-m-1.webp'} 
+                      src={member.image || '/assets/img/team/placeholder.webp'} 
                       className="img-fluid" 
                       alt={member.name} 
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/assets/img/person/person-m-1.webp';
+                      }}
                     />
                     <div className="social-overlay">
                       <div className="social-links">

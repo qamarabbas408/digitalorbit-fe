@@ -19,6 +19,7 @@ interface TeamMember {
 export default function TeamPage() {
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
   const [formData, setFormData] = useState<Partial<TeamMember>>({
@@ -262,14 +263,38 @@ export default function TeamPage() {
                 </div>
 
                 <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Image</label>
                   <input
-                    type="text"
-                    value={formData.image}
-                    onChange={e => handleChange('image', e.target.value)}
-                    placeholder="/assets/img/team/member.webp"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    type="file"
+                    accept="image/*"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setUploading(true);
+                        const formDataUpload = new FormData();
+                        formDataUpload.append('file', file);
+                        formDataUpload.append('folder', 'team');
+                        try {
+                          const res = await fetch('/api/upload', {
+                            method: 'POST',
+                            body: formDataUpload,
+                          });
+                          const data = await res.json();
+                          if (data.url) {
+                            handleChange('image', data.url);
+                          }
+                        } catch (err) {
+                          console.error('Upload failed', err);
+                        }
+                        setUploading(false);
+                      }
+                    }}
+                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   />
+                  {formData.image && (
+                    <img src={formData.image} alt="Preview" className="mt-2 w-24 h-24 object-cover rounded-lg" />
+                  )}
+                  {uploading && <p className="text-sm text-blue-600 mt-2">Uploading...</p>}
                 </div>
 
                 <div className="mt-4">

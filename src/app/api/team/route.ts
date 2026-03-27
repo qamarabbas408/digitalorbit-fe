@@ -8,7 +8,12 @@ export async function GET() {
       ['active']
     ) as [any[], any];
     
-    return NextResponse.json(rows);
+    const members = rows.map(row => ({
+      ...row,
+      image: row.image || '/assets/img/team/placeholder.webp'
+    }));
+    
+    return NextResponse.json(members);
   } catch (error) {
     console.error('Failed to fetch team members:', error);
     return NextResponse.json({ error: 'Failed to fetch team members' }, { status: 500 });
@@ -39,7 +44,11 @@ export async function POST(request: Request) {
     );
     
     const [rows] = await pool.query('SELECT * FROM team_members WHERE id = ?', [id]) as [any[], any];
-    return NextResponse.json(rows[0], { status: 201 });
+    const row = rows[0];
+    return NextResponse.json({
+      ...row,
+      image: row.image || '/assets/img/team/placeholder.webp'
+    }, { status: 201 });
   } catch (error) {
     console.error('Failed to create team member:', error);
     return NextResponse.json({ error: 'Failed to create team member' }, { status: 500 });

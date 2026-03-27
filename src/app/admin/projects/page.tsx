@@ -11,6 +11,7 @@ interface Project {
   technologies: string[];
   description: string;
   image: string;
+  gallery: string[];
   featured: boolean;
   client: string;
   url: string;
@@ -20,7 +21,7 @@ interface Project {
 interface Category {
   id: string;
   name: string;
-  filterClass: string;
+  filter_class: string;
 }
 
 export default function ProjectsPage() {
@@ -37,12 +38,15 @@ export default function ProjectsPage() {
     technologies: [],
     description: '',
     image: '',
+    gallery: [],
     featured: false,
     client: '',
     url: '',
     status: 'published'
   });
   const [techInput, setTechInput] = useState('');
+  const [galleryInput, setGalleryInput] = useState('');
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -80,6 +84,7 @@ export default function ProjectsPage() {
         technologies: [],
         description: '',
         image: '',
+        gallery: [],
         featured: false,
         client: '',
         url: '',
@@ -87,12 +92,30 @@ export default function ProjectsPage() {
       });
       setTechInput('');
     }
+    setGalleryInput('');
     setShowModal(true);
   };
 
   const closeModal = () => {
     setShowModal(false);
     setEditingProject(null);
+  };
+
+  const addGalleryImage = () => {
+    if (galleryInput.trim()) {
+      setFormData(prev => ({
+        ...prev,
+        gallery: [...(prev.gallery || []), galleryInput.trim()]
+      }));
+      setGalleryInput('');
+    }
+  };
+
+  const removeGalleryImage = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      gallery: (prev.gallery || []).filter((_, i) => i !== index)
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -182,7 +205,7 @@ export default function ProjectsPage() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Image</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Technologies</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Gallery</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Featured</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
@@ -208,19 +231,28 @@ export default function ProjectsPage() {
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         project.categoryId === 'web-design' ? 'bg-blue-100 text-blue-800' :
                         project.categoryId === 'mobile-design' ? 'bg-green-100 text-green-800' :
-                        project.categoryId === 'branding' ? 'bg-purple-100 text-purple-800' :
-                        'bg-orange-100 text-orange-800'
+                        'bg-purple-100 text-purple-800'
                       }`}>
                         {categories.find(c => c.id === project.categoryId)?.name || project.categoryId}
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex flex-wrap gap-1">
-                        {project.technologies?.slice(0, 3).map((tech, i) => (
-                          <span key={i} className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">{tech}</span>
+                      <div className="flex -space-x-2">
+                        {project.gallery?.slice(0, 3).map((img, i) => (
+                          <img
+                            key={i}
+                            src={img}
+                            alt=""
+                            className="w-8 h-8 rounded-full border-2 border-white object-cover"
+                          />
                         ))}
-                        {(project.technologies?.length || 0) > 3 && (
-                          <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">+{project.technologies.length - 3}</span>
+                        {(project.gallery?.length || 0) > 3 && (
+                          <span className="w-8 h-8 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-medium text-gray-600">
+                            +{project.gallery.length - 3}
+                          </span>
+                        )}
+                        {(!project.gallery || project.gallery.length === 0) && (
+                          <span className="text-xs text-gray-400">No gallery</span>
                         )}
                       </div>
                     </td>
@@ -368,14 +400,161 @@ export default function ProjectsPage() {
                 </div>
 
                 <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Main Image (shown on homepage)</label>
+                  {formData.image ? (
+                    <div className="relative inline-block">
+                      <img src={formData.image} alt="Preview" className="w-32 h-32 object-cover rounded-lg border border-gray-200" />
+                      <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, image: '' }))}
+                        className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors shadow-md"
+                      >
+                        <i className="bi bi-x text-xs"></i>
+                      </button>
+                    </div>
+                  ) : (
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setUploading(true);
+                          const formDataUpload = new FormData();
+                          formDataUpload.append('file', file);
+                          formDataUpload.append('folder', 'portfolio');
+                          try {
+                            const res = await fetch('/api/upload', {
+                              method: 'POST',
+                              body: formDataUpload,
+                            });
+                            const data = await res.json();
+                            if (data.url) {
+                              setFormData(prev => ({ ...prev, image: data.url }));
+                            }
+                          } catch (err) {
+                            console.error('Upload failed', err);
+                          }
+                          setUploading(false);
+                        }
+                      }}
+                      className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                    />
+                  )}
+                  {uploading && <p className="text-sm text-blue-600 mt-2">Uploading...</p>}
+                  {formData.image && (
+                    <label
+                      htmlFor="main-image-upload"
+                      className="ml-3 inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm cursor-pointer hover:bg-gray-200 transition-colors"
+                    >
+                      Change Image
+                    </label>
+                  )}
                   <input
-                    type="text"
-                    value={formData.image}
-                    onChange={e => setFormData({ ...formData, image: e.target.value })}
-                    placeholder="/assets/img/portfolio/project.webp"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    id="main-image-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setUploading(true);
+                        const formDataUpload = new FormData();
+                        formDataUpload.append('file', file);
+                        formDataUpload.append('folder', 'portfolio');
+                        try {
+                          const res = await fetch('/api/upload', {
+                            method: 'POST',
+                            body: formDataUpload,
+                          });
+                          const data = await res.json();
+                          if (data.url) {
+                            setFormData(prev => ({ ...prev, image: data.url }));
+                          }
+                        } catch (err) {
+                          console.error('Upload failed', err);
+                        }
+                        setUploading(false);
+                      }
+                    }}
                   />
+                </div>
+
+                <div className="mt-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Gallery Images</label>
+                  <input
+                    id="gallery-upload"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={async (e) => {
+                      const files = e.target.files;
+                      if (files && files.length > 0) {
+                        setUploading(true);
+                        for (let i = 0; i < files.length; i++) {
+                          const file = files[i];
+                          const formDataUpload = new FormData();
+                          formDataUpload.append('file', file);
+                          formDataUpload.append('folder', 'portfolio');
+                          try {
+                            const res = await fetch('/api/upload', {
+                              method: 'POST',
+                              body: formDataUpload,
+                            });
+                            const data = await res.json();
+                            if (data.url) {
+                              setFormData(prev => ({ 
+                                ...prev, 
+                                gallery: [...(prev.gallery || []), data.url] 
+                              }));
+                            }
+                          } catch (err) {
+                            console.error('Upload failed', err);
+                          }
+                        }
+                        setUploading(false);
+                        e.target.value = '';
+                      }
+                    }}
+                    className="hidden"
+                  />
+                  <div className="flex gap-2">
+                    <label
+                      htmlFor="gallery-upload"
+                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors cursor-pointer flex items-center gap-2"
+                    >
+                      <i className="bi bi-plus-lg"></i>
+                      {uploading ? 'Uploading...' : 'Add Images'}
+                    </label>
+                    {formData.gallery && formData.gallery.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, gallery: [] }))}
+                        className="px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors"
+                      >
+                        <i className="bi bi-trash"></i> Clear All
+                      </button>
+                    )}
+                  </div>
+                  {formData.gallery && formData.gallery.length > 0 && (
+                    <div className="mt-3 grid grid-cols-4 gap-3">
+                      {formData.gallery.map((img, index) => (
+                        <div key={index} className="relative">
+                          <img src={img} alt="" className="w-full h-24 object-cover rounded-lg border border-gray-200" />
+                          <button
+                            type="button"
+                            onClick={() => removeGalleryImage(index)}
+                            className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors shadow-md"
+                          >
+                            <i className="bi bi-x text-xs"></i>
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <p className="mt-2 text-xs text-gray-500">
+                    {formData.gallery?.length || 0} image(s) selected • Click image to remove
+                  </p>
                 </div>
 
                 <div className="mt-4">

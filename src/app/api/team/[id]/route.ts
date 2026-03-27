@@ -13,7 +13,11 @@ export async function GET(
       return NextResponse.json({ error: 'Team member not found' }, { status: 404 });
     }
     
-    return NextResponse.json(rows[0]);
+    const row = rows[0];
+    return NextResponse.json({
+      ...row,
+      image: row.image || '/assets/img/team/placeholder.webp'
+    });
   } catch (error) {
     console.error('Failed to fetch team member:', error);
     return NextResponse.json({ error: 'Failed to fetch team member' }, { status: 500 });
@@ -55,7 +59,11 @@ export async function PUT(
       return NextResponse.json({ error: 'Team member not found' }, { status: 404 });
     }
     
-    return NextResponse.json(rows[0]);
+    const row = rows[0];
+    return NextResponse.json({
+      ...row,
+      image: row.image || '/assets/img/team/placeholder.webp'
+    });
   } catch (error) {
     console.error('Failed to update team member:', error);
     return NextResponse.json({ error: 'Failed to update team member' }, { status: 500 });
