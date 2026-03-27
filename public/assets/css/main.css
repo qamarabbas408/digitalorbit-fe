@@ -3949,7 +3949,7 @@ section,
 
 .portfolio-details .hero-image-wrapper .floating-badge {
   position: absolute;
-  bottom: 24px;
+  /* bottom: 24px; */
   left: 24px;
   display: inline-flex;
   align-items: center;
