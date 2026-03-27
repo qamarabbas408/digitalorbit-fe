@@ -6,9 +6,58 @@ import Script from "next/script";
 import { SettingsProvider } from "@/context/SettingsContext";
 
 export const metadata: Metadata = {
-  title: "DigitalOrbit - Crafting Exceptional Digital Experiences",
-  description: "DigitalOrbit - Building innovative web and mobile solutions",
-  keywords: "digital, web development, mobile apps, software solutions",
+  metadataBase: new URL('https://digitalorbit.org'),
+  title: {
+    default: "DigitalOrbit - Crafting Exceptional Digital Experiences",
+    template: "%s | DigitalOrbit",
+  },
+  description: "DigitalOrbit - Building innovative web and mobile solutions for businesses worldwide. Expert web development, mobile apps, and digital transformation services.",
+  keywords: ["digital agency", "web development", "mobile app development", "UI/UX design", "software solutions", "digital transformation", "React development", "Next.js development"],
+  authors: [{ name: "DigitalOrbit" }],
+  creator: "DigitalOrbit",
+  publisher: "DigitalOrbit",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://digitalorbit.org",
+    siteName: "DigitalOrbit",
+    title: "DigitalOrbit - Crafting Exceptional Digital Experiences",
+    description: "Building innovative web and mobile solutions for businesses worldwide. Expert web development, mobile apps, and digital transformation services.",
+    images: [
+      {
+        url: "/assets/img/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "DigitalOrbit - Digital Solutions",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DigitalOrbit - Crafting Exceptional Digital Experiences",
+    description: "Building innovative web and mobile solutions for businesses worldwide.",
+    images: ["/assets/img/og-image.png"],
+    creator: "@digitalorbits",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "google-site-verification-code",
+  },
 };
 
 export default function RootLayout({

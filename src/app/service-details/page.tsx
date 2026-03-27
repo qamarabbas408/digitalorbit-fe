@@ -1,4 +1,13 @@
 import React from 'react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Service Details',
+  description: 'Learn more about our expert services and how we can help transform your business.',
+  alternates: {
+    canonical: '/service-details',
+  },
+};
 
 export default function ServiceDetailsPage() {
   return (

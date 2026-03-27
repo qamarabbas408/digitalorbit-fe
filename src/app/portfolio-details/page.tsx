@@ -1,4 +1,13 @@
 import React from 'react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Portfolio Details',
+  description: 'Explore our portfolio of successful projects and see how we transform ideas into digital reality.',
+  alternates: {
+    canonical: '/portfolio-details',
+  },
+};
 
 export default function PortfolioDetailsPage() {
   return (
