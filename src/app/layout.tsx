@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import Favicon from "@/components/Favicon";
 import Script from "next/script";
 import { SettingsProvider } from "@/context/SettingsContext";
+import ClientLayout from "@/components/ClientLayout";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://digitalorbit.org'),
@@ -109,9 +108,7 @@ export default function RootLayout({
 
         <SettingsProvider>
           <Favicon />
-          <Header />
-          <main className="main">{children}</main>
-          <Footer />
+          <ClientLayout>{children}</ClientLayout>
         </SettingsProvider>
 
         {/* Scroll Top */}

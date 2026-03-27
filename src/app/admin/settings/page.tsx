@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { showToast } from '@/components/CustomToaster';
 
 interface Settings {
   company_name: string;
@@ -34,7 +35,6 @@ export default function SettingsPage() {
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [uploading, setUploading] = useState<string | null>(null);
   const logoInputRef = useRef<HTMLInputElement>(null);
   const faviconInputRef = useRef<HTMLInputElement>(null);
@@ -85,12 +85,12 @@ export default function SettingsPage() {
       
       if (res.ok && data.url) {
         handleChange(field, data.url);
-        setMessage({ type: 'success', text: 'Image uploaded successfully!' });
+        showToast.success('Image uploaded successfully!');
       } else {
-        setMessage({ type: 'error', text: data.error || 'Failed to upload image' });
+        showToast.error(data.error || 'Failed to upload image');
       }
     } catch (error) {
-      setMessage({ type: 'error', text: 'Failed to upload image' });
+      showToast.error('Failed to upload image');
     } finally {
       setUploading(null);
     }
@@ -113,7 +113,6 @@ export default function SettingsPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    setMessage(null);
 
     try {
       const res = await fetch('/api/settings', {
@@ -123,12 +122,12 @@ export default function SettingsPage() {
       });
 
       if (res.ok) {
-        setMessage({ type: 'success', text: 'Settings saved successfully!' });
+        showToast.success('Settings saved successfully!');
       } else {
-        setMessage({ type: 'error', text: 'Failed to save settings' });
+        showToast.error('Failed to save settings');
       }
     } catch (error) {
-      setMessage({ type: 'error', text: 'Failed to save settings' });
+      showToast.error('Failed to save settings');
     } finally {
       setSaving(false);
     }
@@ -148,12 +147,6 @@ export default function SettingsPage() {
         <h1 className="text-2xl font-bold text-gray-900">Site Settings</h1>
         <p className="text-gray-600">Manage your site information</p>
       </div>
-
-      {message && (
-        <div className={`mb-6 p-4 rounded-lg ${message.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-          {message.text}
-        </div>
-      )}
 
       <form onSubmit={handleSubmit}>
         {/* Logo & Branding Section */}
