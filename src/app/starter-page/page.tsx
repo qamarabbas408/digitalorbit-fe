@@ -16,7 +16,7 @@ export default function StarterPagePage() {
         </div>
         <div className="title-wrapper">
           <h1>Starter Page</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</p>
+          <p>A clean slate for your custom content. Build something unique for your business.</p>
         </div>
       </div>{/* End Page Title */}
 
@@ -24,12 +24,12 @@ export default function StarterPagePage() {
       <section id="starter-section" className="starter-section section">
         {/* Section Title */}
         <div className="container section-title" data-aos="fade-up">
-          <h2>Starter Section</h2>
-          <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+          <h2>Getting Started</h2>
+          <p>Begin your journey with us and transform your digital presence</p>
         </div>{/* End Section Title */}
 
         <div className="container" data-aos="fade-up">
-          <p>Use this page as a starter for your own custom pages.</p>
+          <p>This is a placeholder page. Contact us to discuss your custom project requirements and let us bring your vision to life.</p>
         </div>
       </section>{/* /Starter Section Section */}
     </>

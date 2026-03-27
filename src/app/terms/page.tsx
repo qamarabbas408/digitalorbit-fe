@@ -48,13 +48,13 @@ export default function TermsPage() {
                 <div className="article-number">01</div>
                 <div className="article-content">
                   <h3>Acceptance of Terms</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+                  <p>By accessing and using our website and services, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by these terms, please do not use this service.</p>
                   <div className="highlight-card info">
                     <div className="card-icon">
                       <i className="bi bi-lightbulb"></i>
                     </div>
                     <div className="card-text">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porttitor lectus nibh.</p>
+                      <p>Please read these terms carefully before using our services. Your continued use indicates acceptance of these terms.</p>
                     </div>
                   </div>
                 </div>
@@ -65,7 +65,7 @@ export default function TermsPage() {
                 <div className="article-number">02</div>
                 <div className="article-content">
                   <h3>Intellectual Property Rights</h3>
-                  <p>Nulla porttitor accumsan tincidunt. Curabitur aliquet quam id dui posuere blandit. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.</p>
+                  <p>All content, designs, graphics, logos, and other materials on our website are the intellectual property of Digital Orbits. Unauthorized reproduction, distribution, or modification is strictly prohibited.</p>
                   <div className="checklist">
                     <div className="check-item">
                       <i className="bi bi-check2-circle"></i>
@@ -92,14 +92,14 @@ export default function TermsPage() {
                 <div className="article-number">03</div>
                 <div className="article-content">
                   <h3>User Account Responsibilities</h3>
-                  <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem.</p>
+                  <p>You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. Please notify us immediately of any unauthorized access.</p>
                   <div className="highlight-card warning">
                     <div className="card-icon">
                       <i className="bi bi-shield-exclamation"></i>
                     </div>
                     <div className="card-text">
                       <h5>Security Reminder</h5>
-                      <p>Donec sollicitudin molestie malesuada. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.</p>
+                      <p>Never share your password with third parties. Use strong, unique passwords and enable two-factor authentication when available.</p>
                     </div>
                   </div>
                 </div>
@@ -110,7 +110,7 @@ export default function TermsPage() {
                 <div className="article-number">04</div>
                 <div className="article-content">
                   <h3>Usage Restrictions</h3>
-                  <p>Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Proin eget tortor risus cras ultricies ligula sed magna dictum porta.</p>
+                  <p>You agree not to use our services for any unlawful purpose or in any way that could damage, disable, or impair our platform. The following activities are strictly prohibited:</p>
                   <div className="restrictions-grid">
                     <div className="restriction-card">
                       <i className="bi bi-slash-circle"></i>
@@ -137,17 +137,17 @@ export default function TermsPage() {
                 <div className="article-number">05</div>
                 <div className="article-content">
                   <h3>Disclaimer of Warranties</h3>
-                  <p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Nulla quis lorem ut libero malesuada feugiat. Pellentesque in ipsum id orci porta dapibus.</p>
+                  <p>Our services are provided "as is" without any warranties, express or implied. We do not guarantee that our services will be uninterrupted, secure, or error-free.</p>
                   <div className="disclaimer-panel">
                     <div className="panel-header">
                       <i className="bi bi-info-lg"></i>
                       <span>Service Limitations</span>
                     </div>
                     <ul className="panel-list">
-                      <li>Vestibulum ante ipsum primis in faucibus orci</li>
-                      <li>Donec velit neque, auctor sit amet aliquam vel</li>
-                      <li>Nulla porttitor accumsan tincidunt curabitur</li>
-                      <li>Praesent sapien massa convallis pellentesque</li>
+                      <li>Services may experience occasional downtime for maintenance</li>
+                      <li>We strive for accuracy but cannot guarantee all content is current</li>
+                      <li>User assumes responsibility for how they use our services</li>
+                      <li>Third-party integrations are subject to their own terms</li>
                     </ul>
                   </div>
                 </div>
@@ -158,7 +158,7 @@ export default function TermsPage() {
                 <div className="article-number">06</div>
                 <div className="article-content">
                   <h3>Limitation of Liability</h3>
-                  <p>Curabitur aliquet quam id dui posuere blandit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae donec velit neque.</p>
+                  <p>Digital Orbits shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of our services. Our total liability is limited to the amount paid for services.</p>
                 </div>
               </article>
 
@@ -167,7 +167,7 @@ export default function TermsPage() {
                 <div className="article-number">07</div>
                 <div className="article-content">
                   <h3>Indemnification Clause</h3>
-                  <p>Quisque velit nisi, pretium ut lacinia in, elementum id enim. Sed porttitor lectus nibh. Vivamus suscipit tortor eget felis porttitor volutpat.</p>
+                  <p>You agree to indemnify and hold Digital Orbits harmless from any claims, damages, or expenses arising from your use of our services or violation of these terms.</p>
                 </div>
               </article>
 
@@ -176,7 +176,7 @@ export default function TermsPage() {
                 <div className="article-number">08</div>
                 <div className="article-content">
                   <h3>Account Termination</h3>
-                  <p>Pellentesque in ipsum id orci porta dapibus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Lorem ipsum dolor sit amet consectetur adipiscing.</p>
+                  <p>We reserve the right to suspend or terminate your account at any time for violation of these terms. You may also cancel your account at any time by contacting us.</p>
                 </div>
               </article>
 
@@ -185,7 +185,7 @@ export default function TermsPage() {
                 <div className="article-number">09</div>
                 <div className="article-content">
                   <h3>Applicable Jurisdiction</h3>
-                  <p>Donec sollicitudin molestie malesuada. Nulla quis lorem ut libero malesuada feugiat. Cras ultricies ligula sed magna dictum porta vestibulum ac diam.</p>
+                  <p>These terms shall be governed by and construed in accordance with the laws of Pakistan. Any disputes arising shall be subject to the exclusive jurisdiction of Pakistani courts.</p>
                 </div>
               </article>
 
@@ -194,13 +194,13 @@ export default function TermsPage() {
                 <div className="article-number">10</div>
                 <div className="article-content">
                   <h3>Terms Modifications</h3>
-                  <p>Proin eget tortor risus. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Vivamus magna justo lacinia eget consectetur sed convallis tellus.</p>
+                  <p>We reserve the right to modify these terms at any time. Continued use of our services after changes constitutes acceptance of the modified terms.</p>
                   <div className="highlight-card notice">
                     <div className="card-icon">
                       <i className="bi bi-megaphone"></i>
                     </div>
                     <div className="card-text">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit vestibulum ante ipsum primis faucibus orci luctus et ultrices posuere cubilia curae.</p>
+                      <p>We will notify users of significant changes via email or prominent notice on our website.</p>
                     </div>
                   </div>
                 </div>

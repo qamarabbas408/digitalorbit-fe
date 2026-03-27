@@ -29,10 +29,10 @@ export default function About() {
               <div className="section-subtitle">Who We Are</div>
               <h2>Innovating for Your Success Through Technology</h2>
               <p className="lead-text">
-                Voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                We are a forward-thinking digital agency dedicated to transforming businesses through innovative technology solutions. Our team combines creativity with technical expertise to deliver exceptional results.
               </p>
               <p className="mb-4 description">
-                Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
+                With years of experience in web development, mobile apps, and digital strategy, we help clients navigate the digital landscape with confidence. Every project we undertake is driven by a commitment to quality, innovation, and measurable outcomes.
               </p>
               <div className="features-grid">
                 <div className="feature-card">

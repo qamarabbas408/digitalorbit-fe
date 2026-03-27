@@ -44,7 +44,7 @@ export default function Services() {
     <section id="services" className="services section">
       <div className="container section-title" data-aos="fade-up">
         <h2>Services</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <p>Expert solutions tailored to transform your digital presence and drive business growth</p>
       </div>
 
       <div className="container" data-aos="fade-up" data-aos-delay="100">

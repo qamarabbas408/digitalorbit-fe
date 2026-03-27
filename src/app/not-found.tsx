@@ -27,7 +27,7 @@ export default function NotFound() {
               <span className="error-badge">Oops!</span>
               <h1 className="error-heading">Something Went Wrong</h1>
               <p className="error-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod metus vel sem bibendum, a sagittis arcu posuere. Phasellus vehicula ipsum non massa fermentum.
+                The page you're looking for doesn't exist or has been moved. Let's get you back on track.
               </p>
 
               <div className="action-buttons">

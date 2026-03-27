@@ -16,7 +16,7 @@ export default function ServiceDetailsPage() {
         </div>
         <div className="title-wrapper">
           <h1>Service Details</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</p>
+          <p>Learn more about how our expert services can help your business grow.</p>
         </div>
       </div>{/* End Page Title */}
 
@@ -42,8 +42,8 @@ export default function ServiceDetailsPage() {
                   <span>What We Deliver</span>
                 </div>
                 <h2>Comprehensive Digital Transformation Solutions</h2>
-                <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae. Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.</p>
-                <p>Curabitur aliquet quam id dui posuere blandit. Nulla porttitor accumsan tincidunt. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Cras ultricies ligula sed magna dictum porta.</p>
+                <p>We help businesses embrace digital technologies to streamline operations, enhance customer experiences, and achieve sustainable growth. Our team of experts delivers tailored solutions that address your unique challenges.</p>
+                <p>From initial consultation to implementation and support, we partner with you every step of the way. Our proven methodologies ensure successful delivery and measurable results for your organization.</p>
               </div>
 
               {/* Key Features */}
@@ -57,7 +57,7 @@ export default function ServiceDetailsPage() {
                       </div>
                       <div className="feature-content">
                         <h4>Rapid Deployment</h4>
-                        <p>Mauris blandit aliquet elit eget tincidunt nibh pulvinar a sed porttitor lectus.</p>
+                        <p>Get your solution up and running quickly with our efficient development process and proven delivery framework.</p>
                       </div>
                     </div>
                   </div>
@@ -68,7 +68,7 @@ export default function ServiceDetailsPage() {
                       </div>
                       <div className="feature-content">
                         <h4>Enterprise Security</h4>
-                        <p>Pellentesque in ipsum id orci porta dapibus cras ultricies ligula sed magna.</p>
+                        <p>Protect your data with bank-grade security measures and compliance with industry standards.</p>
                       </div>
                     </div>
                   </div>
@@ -79,7 +79,7 @@ export default function ServiceDetailsPage() {
                       </div>
                       <div className="feature-content">
                         <h4>Scalable Architecture</h4>
-                        <p>Quisque velit nisi pretium ut lacinia in elementum id enim sed porttitor.</p>
+                        <p>Build for growth with flexible solutions that expand seamlessly as your business evolves.</p>
                       </div>
                     </div>
                   </div>
@@ -90,7 +90,7 @@ export default function ServiceDetailsPage() {
                       </div>
                       <div className="feature-content">
                         <h4>Dedicated Support</h4>
-                        <p>Nulla quis lorem ut libero malesuada feugiat proin eget tortor risus.</p>
+                        <p>Rely on our responsive support team for ongoing assistance and troubleshooting.</p>
                       </div>
                     </div>
                   </div>
@@ -105,28 +105,28 @@ export default function ServiceDetailsPage() {
                     <div className="process-number">01</div>
                     <div className="process-content">
                       <h4>Discovery &amp; Analysis</h4>
-                      <p>Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur arcu erat accumsan id imperdiet et.</p>
+                      <p>We begin by understanding your business goals, challenges, and requirements through detailed discussions and analysis.</p>
                     </div>
                   </div>
                   <div className="process-item">
                     <div className="process-number">02</div>
                     <div className="process-content">
                       <h4>Strategic Planning</h4>
-                      <p>Donec sollicitudin molestie malesuada. Praesent sapien massa convallis a pellentesque nec egestas.</p>
+                      <p>Our team develops a comprehensive roadmap with clear milestones, timelines, and technical specifications.</p>
                     </div>
                   </div>
                   <div className="process-item">
                     <div className="process-number">03</div>
                     <div className="process-content">
                       <h4>Development &amp; Testing</h4>
-                      <p>Nulla porttitor accumsan tincidunt. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet.</p>
+                      <p>We build your solution using industry best practices, with rigorous testing at every stage of development.</p>
                     </div>
                   </div>
                   <div className="process-item">
                     <div className="process-number">04</div>
                     <div className="process-content">
                       <h4>Launch &amp; Optimization</h4>
-                      <p>Curabitur aliquet quam id dui posuere blandit. Mauris blandit aliquet elit eget tincidunt nibh.</p>
+                      <p>We deploy your solution and provide ongoing support to ensure optimal performance and continuous improvement.</p>
                     </div>
                   </div>
                 </div>

@@ -6,7 +6,7 @@ export default function WhyUs() {
       {/* Section Title */}
       <div className="container section-title" data-aos="fade-up">
         <h2>Why Us</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <p>Discover what sets us apart and why clients trust us with their digital transformation</p>
       </div>{/* End Section Title */}
 
       <div className="container" data-aos="fade-up" data-aos-delay="100">
@@ -17,7 +17,7 @@ export default function WhyUs() {
                 <span className="section-badge"><i className="bi bi-stars"></i> Our Difference</span>
               </div>
               <h2>Transform Your Vision Into Digital Excellence</h2>
-              <p className="description">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.</p>
+              <p className="description">We combine technical expertise with creative thinking to deliver solutions that drive real business growth. Our proven methodology ensures transparency, efficiency, and exceptional results every time.</p>
 
               <div className="stat-cards">
                 <div className="stat-card" data-aos="zoom-in" data-aos-delay="300">
@@ -56,7 +56,7 @@ export default function WhyUs() {
                 </div>
                 <div className="feature-content">
                   <h4>Rapid Implementation</h4>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.</p>
+                  <p>We deliver projects on time without compromising quality. Our agile process ensures quick iterations and fast turnaround without sacrificing excellence.</p>
                   <a href="#" className="feature-link">Discover How <i className="bi bi-chevron-right"></i></a>
                 </div>
               </div>{/* End Feature Box */}
@@ -67,7 +67,7 @@ export default function WhyUs() {
                 </div>
                 <div className="feature-content">
                   <h4>Analytics-First Approach</h4>
-                  <p>Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit.</p>
+                  <p>Every decision we make is backed by data. We track metrics, analyze results, and continuously optimize to ensure maximum ROI for your investment.</p>
                   <a href="#" className="feature-link">Discover How <i className="bi bi-chevron-right"></i></a>
                 </div>
               </div>{/* End Feature Box */}
@@ -78,7 +78,7 @@ export default function WhyUs() {
                 </div>
                 <div className="feature-content">
                   <h4>Award-Winning Team</h4>
-                  <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.</p>
+                  <p>Our team of certified experts brings diverse skills and proven experience. We're passionate about technology and committed to exceeding expectations.</p>
                   <a href="#" className="feature-link">Discover How <i className="bi bi-chevron-right"></i></a>
                 </div>
               </div>{/* End Feature Box */}
@@ -129,21 +129,21 @@ export default function WhyUs() {
                     <i className="bi bi-bullseye"></i>
                   </div>
                   <h6>Strategic Consulting</h6>
-                  <p>Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus.</p>
+                  <p>We analyze your business needs and develop customized strategies that align with your goals and drive measurable growth.</p>
                 </div>
                 <div className="capability-card">
                   <div className="capability-icon">
                     <i className="bi bi-code-slash"></i>
                   </div>
                   <h6>Tailored Development</h6>
-                  <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet.</p>
+                  <p>We build custom solutions that fit your unique requirements. From web apps to mobile solutions, we deliver scalable and maintainable code.</p>
                 </div>
                 <div className="capability-card">
                   <div className="capability-icon">
                     <i className="bi bi-arrow-repeat"></i>
                   </div>
                   <h6>Continuous Enhancement</h6>
-                  <p>Itaque earum rerum hic tenetur a sapiente delectus ut aut reiciendis voluptatibus maiores.</p>
+                  <p>Our relationship doesn't end at launch. We provide ongoing support, updates, and improvements to keep your digital presence ahead of the curve.</p>
                 </div>
               </div>
             </div>

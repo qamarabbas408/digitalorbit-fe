@@ -16,7 +16,7 @@ export default function PortfolioDetailsPage() {
         </div>
         <div className="title-wrapper">
           <h1>Portfolio Details</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</p>
+          <p>Explore our recent work and see how we transform ideas into digital reality.</p>
         </div>
       </div>{/* End Page Title */}
 
@@ -68,7 +68,7 @@ export default function PortfolioDetailsPage() {
                   <span>Web Application</span>
                 </div>
                 <h1 className="project-title">Creative Digital Experience Platform</h1>
-                <p className="project-excerpt">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae ultricies eget.</p>
+                <p className="project-excerpt">A comprehensive digital platform designed to deliver exceptional user experiences with cutting-edge technology and intuitive design.</p>
                 <div className="meta-grid">
                   <div className="meta-item">
                     <span className="meta-label">Client</span>
@@ -127,9 +127,9 @@ export default function PortfolioDetailsPage() {
                     <span className="block-icon"><i className="bi bi-file-text"></i></span>
                     <h3>Project Overview</h3>
                   </div>
-                  <p className="lead-text">Curabitur aliquet quam id dui posuere blandit. Nulla porttitor accumsan tincidunt. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.</p>
-                  <p>Sed porttitor lectus nibh. Cras ultricies ligula sed magna dictum porta. Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Proin eget tortor risus. Curabitur aliquet quam id dui posuere blandit.</p>
-                  <p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem.</p>
+                  <p className="lead-text">We developed a complete digital solution that streamlined operations, improved user engagement, and delivered measurable business results for our client.</p>
+                  <p>The project involved building a scalable architecture using modern technologies. We focused on creating an intuitive user interface while ensuring robust backend functionality. Regular testing and iterative improvements ensured the final product exceeded expectations.</p>
+                  <p>Our team worked closely with stakeholders to understand their unique requirements and delivered a solution that addressed their specific challenges while preparing them for future growth.</p>
                 </div>
 
                 <div className="challenge-solution" data-aos="fade-up" data-aos-delay="200">
@@ -140,7 +140,7 @@ export default function PortfolioDetailsPage() {
                           <i className="bi bi-puzzle"></i>
                         </div>
                         <h4>The Challenge</h4>
-                        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae. Donec velit neque, auctor sit amet aliquam vel.</p>
+                        <p>The client needed a unified platform to manage multiple business processes while ensuring seamless integration with existing systems.</p>
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -149,7 +149,7 @@ export default function PortfolioDetailsPage() {
                           <i className="bi bi-check2-circle"></i>
                         </div>
                         <h4>Our Solution</h4>
-                        <p>Nulla quis lorem ut libero malesuada feugiat. Proin eget tortor risus. Cras ultricies ligula sed magna dictum porta mauris.</p>
+                        <p>We built a custom solution with modular architecture, enabling easy scaling and integration while maintaining high performance.</p>
                       </div>
                     </div>
                   </div>
