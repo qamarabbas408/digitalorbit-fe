@@ -59,7 +59,7 @@ jobs:
           path: .next
 
       - name: Deploy to Staging Server via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.STAGING_FTP_SERVER }}
           username: ${{ secrets.STAGING_FTP_USERNAME }}
@@ -89,7 +89,7 @@ jobs:
           path: .next
 
       - name: Deploy to Production Server via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.PRODUCTION_FTP_SERVER }}
           username: ${{ secrets.PRODUCTION_FTP_USERNAME }}

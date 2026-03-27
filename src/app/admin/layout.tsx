@@ -215,11 +215,11 @@ export default function AdminLayout({
               </button>
             </form>
 
-            <div className="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-xl">
+            {/* <div className="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-xl">
               <p className="text-sm text-blue-800 text-center">
                 <span className="font-semibold">Development Mode:</span> Use <code className="bg-blue-100 px-2 py-1 rounded text-xs">admin123</code>
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       </>
