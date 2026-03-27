@@ -1,9 +1,41 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useSettings } from "@/context/SettingsContext";
+
+interface Stat {
+  id: string;
+  section: string;
+  label: string;
+  value: string;
+  icon: string;
+  displayOrder: number;
+  status: string;
+}
 
 export default function About() {
   const { settings, loading } = useSettings();
+  const [stats, setStats] = useState<Stat[]>([]);
+  const [statsLoading, setStatsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      const res = await fetch('/api/stats?section=about&status=published');
+      const data = await res.json();
+      setStats(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Failed to fetch stats:', error);
+    } finally {
+      setStatsLoading(false);
+    }
+  };
+
+  const experienceStat = stats.find(s => s.label.toLowerCase().includes('excellence') || s.label.toLowerCase().includes('years'));
+  const projectStats = stats.filter(s => !s.label.toLowerCase().includes('excellence') && !s.label.toLowerCase().includes('years'));
 
   return (
     <section id="about" className="about section">
@@ -18,7 +50,9 @@ export default function About() {
                 <img src="/assets/img/about/about-square-3.webp" alt="Detail shot" className="img-fluid" />
               </div>
               <div className="experience-badge">
-                <span className="years purecounter" data-purecounter-start="0" data-purecounter-end="12" data-purecounter-duration="1">12</span>
+                <span className="years purecounter" data-purecounter-start="0" data-purecounter-end={experienceStat ? parseInt(experienceStat.value) || 12 : 12} data-purecounter-duration="1">
+                  {experienceStat ? experienceStat.value : '12'}
+                </span>
                 <span className="text">Years of<br />Excellence</span>
               </div>
               <div className="shape-pattern"></div>
@@ -53,18 +87,29 @@ export default function About() {
                 </div>
               </div>
               <div className="stats-row">
-                <div className="stat-box">
-                  <span className="number purecounter" data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="1">150</span>
-                  <span className="label">Projects Done</span>
-                </div>
-                <div className="stat-box">
-                  <span className="number purecounter" data-purecounter-start="0" data-purecounter-end="85" data-purecounter-duration="1">85</span>
-                  <span className="label">Happy Clients</span>
-                </div>
-                <div className="stat-box">
-                  <span className="number purecounter" data-purecounter-start="0" data-purecounter-end="95" data-purecounter-duration="1">95%</span>
-                  <span className="label">Retention</span>
-                </div>
+                {!statsLoading && projectStats.length > 0 ? (
+                  projectStats.sort((a, b) => a.displayOrder - b.displayOrder).map((stat) => (
+                    <div key={stat.id} className="stat-box">
+                      <span className="number">{stat.value}</span>
+                      <span className="label">{stat.label}</span>
+                    </div>
+                  ))
+                ) : (
+                  <>
+                    <div className="stat-box">
+                      <span className="number purecounter" data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="1">150</span>
+                      <span className="label">Projects Done</span>
+                    </div>
+                    <div className="stat-box">
+                      <span className="number purecounter" data-purecounter-start="0" data-purecounter-end="85" data-purecounter-duration="1">85</span>
+                      <span className="label">Happy Clients</span>
+                    </div>
+                    <div className="stat-box">
+                      <span className="number purecounter" data-purecounter-start="0" data-purecounter-end="95" data-purecounter-duration="1">95%</span>
+                      <span className="label">Retention</span>
+                    </div>
+                  </>
+                )}
               </div>
               <div className="action-buttons">
                 <a href="#portfolio" className="btn btn-primary-custom">

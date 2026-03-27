@@ -1,6 +1,37 @@
-import React from 'react';
+'use client';
+
+import { useState, useEffect } from 'react';
+
+interface Stat {
+  id: string;
+  section: string;
+  label: string;
+  value: string;
+  icon: string;
+  displayOrder: number;
+  status: string;
+}
 
 export default function Hero() {
+  const [stats, setStats] = useState<Stat[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      const res = await fetch('/api/stats?section=hero&status=published');
+      const data = await res.json();
+      setStats(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Failed to fetch stats:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section id="hero" className="hero section">
       <div className="container" data-aos="fade-up" data-aos-delay="100">
@@ -15,7 +46,7 @@ export default function Hero() {
                 Crafting Exceptional Digital Experiences
               </h1>
               <p className="hero-text" data-aos="fade-up" data-aos-delay="350">
-                Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae ultricies eget.
+                We build innovative digital solutions that help businesses grow. From web development to mobile apps, we bring your vision to life.
               </p>
               <div className="hero-cta" data-aos="fade-up" data-aos-delay="400">
                 <a href="#services" className="cta-button">
@@ -31,42 +62,63 @@ export default function Hero() {
           </div>
           <div className="col-lg-6" data-aos="fade-left" data-aos-delay="300">
             <div className="stats-grid">
-              <div className="stat-card stat-card-primary" data-aos="zoom-in" data-aos-delay="350">
-                <div className="stat-icon-wrap">
-                  <i className="bi bi-rocket-takeoff"></i>
-                </div>
-                <div className="stat-info">
-                  <span className="stat-value">150+</span>
-                  <span className="stat-title">Projects Launched</span>
-                </div>
-              </div>
-              <div className="stat-card" data-aos="zoom-in" data-aos-delay="400">
-                <div className="stat-icon-wrap">
-                  <i className="bi bi-heart"></i>
-                </div>
-                <div className="stat-info">
-                  <span className="stat-value">98%</span>
-                  <span className="stat-title">Client Satisfaction</span>
-                </div>
-              </div>
-              <div className="stat-card" data-aos="zoom-in" data-aos-delay="450">
-                <div className="stat-icon-wrap">
-                  <i className="bi bi-lightbulb"></i>
-                </div>
-                <div className="stat-info">
-                  <span className="stat-value">12+</span>
-                  <span className="stat-title">Years Experience</span>
-                </div>
-              </div>
-              <div className="stat-card stat-card-accent" data-aos="zoom-in" data-aos-delay="500">
-                <div className="stat-icon-wrap">
-                  <i className="bi bi-briefcase"></i>
-                </div>
-                <div className="stat-info">
-                  <span className="stat-value">40+</span>
-                  <span className="stat-title">Team Experts</span>
-                </div>
-              </div>
+              {!loading && stats.length > 0 ? (
+                stats.sort((a, b) => a.displayOrder - b.displayOrder).map((stat, index) => (
+                  <div 
+                    key={stat.id} 
+                    className={`stat-card ${index === 0 ? 'stat-card-primary' : index === 3 ? 'stat-card-accent' : ''}`}
+                    data-aos="zoom-in" 
+                    data-aos-delay={350 + (index * 50)}
+                  >
+                    <div className="stat-icon-wrap">
+                      <i className={`bi ${stat.icon}`}></i>
+                    </div>
+                    <div className="stat-info">
+                      <span className="stat-value">{stat.value}</span>
+                      <span className="stat-title">{stat.label}</span>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <>
+                  <div className="stat-card stat-card-primary" data-aos="zoom-in" data-aos-delay="350">
+                    <div className="stat-icon-wrap">
+                      <i className="bi bi-rocket-takeoff"></i>
+                    </div>
+                    <div className="stat-info">
+                      <span className="stat-value">150+</span>
+                      <span className="stat-title">Projects Launched</span>
+                    </div>
+                  </div>
+                  <div className="stat-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div className="stat-icon-wrap">
+                      <i className="bi bi-heart"></i>
+                    </div>
+                    <div className="stat-info">
+                      <span className="stat-value">98%</span>
+                      <span className="stat-title">Client Satisfaction</span>
+                    </div>
+                  </div>
+                  <div className="stat-card" data-aos="zoom-in" data-aos-delay="450">
+                    <div className="stat-icon-wrap">
+                      <i className="bi bi-lightbulb"></i>
+                    </div>
+                    <div className="stat-info">
+                      <span className="stat-value">12+</span>
+                      <span className="stat-title">Years Experience</span>
+                    </div>
+                  </div>
+                  <div className="stat-card stat-card-accent" data-aos="zoom-in" data-aos-delay="500">
+                    <div className="stat-icon-wrap">
+                      <i className="bi bi-briefcase"></i>
+                    </div>
+                    <div className="stat-info">
+                      <span className="stat-value">40+</span>
+                      <span className="stat-title">Team Experts</span>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

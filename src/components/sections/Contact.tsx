@@ -9,8 +9,20 @@ interface Toast {
   type: 'success' | 'error' | 'info';
 }
 
+interface Stat {
+  id: string;
+  section: string;
+  label: string;
+  value: string;
+  icon: string;
+  displayOrder: number;
+  status: string;
+}
+
 export default function Contact() {
   const { settings, loading } = useSettings();
+  const [stats, setStats] = useState<Stat[]>([]);
+  const [statsLoading, setStatsLoading] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -20,6 +32,22 @@ export default function Contact() {
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [toasts, setToasts] = useState<Toast[]>([]);
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      const res = await fetch('/api/stats?section=contact&status=published');
+      const data = await res.json();
+      setStats(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Failed to fetch stats:', error);
+    } finally {
+      setStatsLoading(false);
+    }
+  };
 
   const showToast = (message: string, type: 'success' | 'error' | 'info') => {
     const id = Date.now();
@@ -151,18 +179,29 @@ export default function Contact() {
                 </div>
 
                 <div className="stats-strip">
-                  <div className="stat-item">
-                    <span className="stat-number">98%</span>
-                    <span className="stat-text">Satisfaction</span>
-                  </div>
-                  <div className="stat-item">
-                    <span className="stat-number">24/7</span>
-                    <span className="stat-text">Support</span>
-                  </div>
-                  <div className="stat-item">
-                    <span className="stat-number">3.2k</span>
-                    <span className="stat-text">Projects</span>
-                  </div>
+                  {!statsLoading && stats.length > 0 ? (
+                    stats.sort((a, b) => a.displayOrder - b.displayOrder).map((stat) => (
+                      <div key={stat.id} className="stat-item">
+                        <span className="stat-number">{stat.value}</span>
+                        <span className="stat-text">{stat.label}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <>
+                      <div className="stat-item">
+                        <span className="stat-number">98%</span>
+                        <span className="stat-text">Satisfaction</span>
+                      </div>
+                      <div className="stat-item">
+                        <span className="stat-number">24/7</span>
+                        <span className="stat-text">Support</span>
+                      </div>
+                      <div className="stat-item">
+                        <span className="stat-number">3.2k</span>
+                        <span className="stat-text">Projects</span>
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 <div className="social-connect">

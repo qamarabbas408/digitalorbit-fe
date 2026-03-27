@@ -139,6 +139,7 @@ export default function AdminLayout({
     { href: '/admin/projects', icon: 'bi-briefcase', label: 'Projects' },
     { href: '/admin/categories', icon: 'bi-tags', label: 'Categories' },
     { href: '/admin/services', icon: 'bi-gear', label: 'Services' },
+    { href: '/admin/stats', icon: 'bi-bar-chart', label: 'Stats' },
     { href: '/admin/team', icon: 'bi-people', label: 'Team' },
     { href: '/admin/testimonials', icon: 'bi-chat-quote', label: 'Testimonials' },
     { href: '/admin/contacts', icon: 'bi-envelope', label: 'Contacts' },

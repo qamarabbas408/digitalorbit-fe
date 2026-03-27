@@ -12,21 +12,39 @@ interface Service {
   status: string;
 }
 
+interface Stat {
+  id: string;
+  section: string;
+  label: string;
+  value: string;
+  icon: string;
+  displayOrder: number;
+  status: string;
+}
+
 export default function Services() {
   const [services, setServices] = useState<Service[]>([]);
+  const [stats, setStats] = useState<Stat[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchServices();
+    fetchData();
   }, []);
 
-  const fetchServices = async () => {
+  const fetchData = async () => {
     try {
-      const res = await fetch('/api/services?status=published');
-      const data = await res.json();
-      setServices(Array.isArray(data) ? data : []);
+      const [servicesRes, statsRes] = await Promise.all([
+        fetch('/api/services?status=published'),
+        fetch('/api/stats?section=services&status=published')
+      ]);
+      const [servicesData, statsData] = await Promise.all([
+        servicesRes.json(),
+        statsRes.json()
+      ]);
+      setServices(Array.isArray(servicesData) ? servicesData : []);
+      setStats(Array.isArray(statsData) ? statsData : []);
     } catch (error) {
-      console.error('Failed to fetch services:', error);
+      console.error('Failed to fetch data:', error);
     } finally {
       setLoading(false);
     }
@@ -88,30 +106,43 @@ export default function Services() {
 
         <div className="stats-row" data-aos="fade-up" data-aos-delay="400">
           <div className="row g-4 justify-content-center">
-            <div className="col-6 col-md-3">
-              <div className="stat-item">
-                <span className="stat-number">250+</span>
-                <span className="stat-label">Projects Delivered</span>
-              </div>
-            </div>
-            <div className="col-6 col-md-3">
-              <div className="stat-item">
-                <span className="stat-number">98%</span>
-                <span className="stat-label">Client Satisfaction</span>
-              </div>
-            </div>
-            <div className="col-6 col-md-3">
-              <div className="stat-item">
-                <span className="stat-number">15+</span>
-                <span className="stat-label">Years Experience</span>
-              </div>
-            </div>
-            <div className="col-6 col-md-3">
-              <div className="stat-item">
-                <span className="stat-number">40+</span>
-                <span className="stat-label">Team Experts</span>
-              </div>
-            </div>
+            {!loading && stats.length > 0 ? (
+              stats.sort((a, b) => a.displayOrder - b.displayOrder).map((stat) => (
+                <div key={stat.id} className="col-6 col-md-3">
+                  <div className="stat-item">
+                    <span className="stat-number">{stat.value}</span>
+                    <span className="stat-label">{stat.label}</span>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <>
+                <div className="col-6 col-md-3">
+                  <div className="stat-item">
+                    <span className="stat-number">250+</span>
+                    <span className="stat-label">Projects Delivered</span>
+                  </div>
+                </div>
+                <div className="col-6 col-md-3">
+                  <div className="stat-item">
+                    <span className="stat-number">98%</span>
+                    <span className="stat-label">Client Satisfaction</span>
+                  </div>
+                </div>
+                <div className="col-6 col-md-3">
+                  <div className="stat-item">
+                    <span className="stat-number">15+</span>
+                    <span className="stat-label">Years Experience</span>
+                  </div>
+                </div>
+                <div className="col-6 col-md-3">
+                  <div className="stat-item">
+                    <span className="stat-number">40+</span>
+                    <span className="stat-label">Team Experts</span>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

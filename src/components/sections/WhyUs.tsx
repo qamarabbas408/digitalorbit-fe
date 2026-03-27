@@ -1,13 +1,43 @@
-import React from 'react';
+'use client';
+
+import { useState, useEffect } from 'react';
+
+interface Stat {
+  id: string;
+  section: string;
+  label: string;
+  value: string;
+  icon: string;
+  displayOrder: number;
+  status: string;
+}
 
 export default function WhyUs() {
+  const [stats, setStats] = useState<Stat[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      const res = await fetch('/api/stats?section=why_us&status=published');
+      const data = await res.json();
+      setStats(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Failed to fetch stats:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section id="why-us" className="why-us section light-background">
-      {/* Section Title */}
       <div className="container section-title" data-aos="fade-up">
         <h2>Why Us</h2>
         <p>Discover what sets us apart and why clients trust us with their digital transformation</p>
-      </div>{/* End Section Title */}
+      </div>
 
       <div className="container" data-aos="fade-up" data-aos-delay="100">
         <div className="row g-5">
@@ -20,24 +50,37 @@ export default function WhyUs() {
               <p className="description">We combine technical expertise with creative thinking to deliver solutions that drive real business growth. Our proven methodology ensures transparency, efficiency, and exceptional results every time.</p>
 
               <div className="stat-cards">
-                <div className="stat-card" data-aos="zoom-in" data-aos-delay="300">
-                  <div className="stat-value">
-                    <span className="purecounter" data-purecounter-start="0" data-purecounter-end="180" data-purecounter-duration="2">180</span>+
-                  </div>
-                  <div className="stat-text">Successful Campaigns</div>
-                </div>
-                <div className="stat-card" data-aos="zoom-in" data-aos-delay="350">
-                  <div className="stat-value">
-                    <span className="purecounter" data-purecounter-start="0" data-purecounter-end="95" data-purecounter-duration="2">95</span>%
-                  </div>
-                  <div className="stat-text">Customer Satisfaction</div>
-                </div>
-                <div className="stat-card" data-aos="zoom-in" data-aos-delay="400">
-                  <div className="stat-value">
-                    <span className="purecounter" data-purecounter-start="0" data-purecounter-end="320" data-purecounter-duration="2">320</span>%
-                  </div>
-                  <div className="stat-text">Growth Achieved</div>
-                </div>
+                {!loading && stats.length > 0 ? (
+                  stats.sort((a, b) => a.displayOrder - b.displayOrder).map((stat, index) => (
+                    <div key={stat.id} className="stat-card" data-aos="zoom-in" data-aos-delay={300 + (index * 50)}>
+                      <div className="stat-value">
+                        {stat.value}
+                      </div>
+                      <div className="stat-text">{stat.label}</div>
+                    </div>
+                  ))
+                ) : (
+                  <>
+                    <div className="stat-card" data-aos="zoom-in" data-aos-delay="300">
+                      <div className="stat-value">
+                        <span className="purecounter" data-purecounter-start="0" data-purecounter-end="180" data-purecounter-duration="2">180</span>+
+                      </div>
+                      <div className="stat-text">Successful Campaigns</div>
+                    </div>
+                    <div className="stat-card" data-aos="zoom-in" data-aos-delay="350">
+                      <div className="stat-value">
+                        <span className="purecounter" data-purecounter-start="0" data-purecounter-end="95" data-purecounter-duration="2">95</span>%
+                      </div>
+                      <div className="stat-text">Customer Satisfaction</div>
+                    </div>
+                    <div className="stat-card" data-aos="zoom-in" data-aos-delay="400">
+                      <div className="stat-value">
+                        <span className="purecounter" data-purecounter-start="0" data-purecounter-end="320" data-purecounter-duration="2">320</span>%
+                      </div>
+                      <div className="stat-text">Growth Achieved</div>
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className="action-buttons">
@@ -59,7 +102,7 @@ export default function WhyUs() {
                   <p>We deliver projects on time without compromising quality. Our agile process ensures quick iterations and fast turnaround without sacrificing excellence.</p>
                   <a href="#" className="feature-link">Discover How <i className="bi bi-chevron-right"></i></a>
                 </div>
-              </div>{/* End Feature Box */}
+              </div>
 
               <div className="feature-box" data-aos="fade-up" data-aos-delay="300">
                 <div className="feature-icon">
@@ -70,7 +113,7 @@ export default function WhyUs() {
                   <p>Every decision we make is backed by data. We track metrics, analyze results, and continuously optimize to ensure maximum ROI for your investment.</p>
                   <a href="#" className="feature-link">Discover How <i className="bi bi-chevron-right"></i></a>
                 </div>
-              </div>{/* End Feature Box */}
+              </div>
 
               <div className="feature-box" data-aos="fade-up" data-aos-delay="350">
                 <div className="feature-icon">
@@ -81,7 +124,7 @@ export default function WhyUs() {
                   <p>Our team of certified experts brings diverse skills and proven experience. We're passionate about technology and committed to exceeding expectations.</p>
                   <a href="#" className="feature-link">Discover How <i className="bi bi-chevron-right"></i></a>
                 </div>
-              </div>{/* End Feature Box */}
+              </div>
             </div>
 
             <div className="process-timeline" data-aos="fade-up" data-aos-delay="400">
