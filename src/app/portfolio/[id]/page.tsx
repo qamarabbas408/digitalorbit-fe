@@ -157,7 +157,7 @@ export default function PortfolioDetailsPage({ params }: { params: Promise<{ id:
                       ))
                     ) : (
                       <div className="swiper-slide">
-                        <img src="/assets/img/portfolio/placeholder.webp" alt={project.title} className="img-fluid w-full h-[450px] object-cover" />
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop" alt={project.title} className="img-fluid w-full h-[450px] object-cover" />
                       </div>
                     )}
                   </div>
@@ -382,10 +382,13 @@ export default function PortfolioDetailsPage({ params }: { params: Promise<{ id:
                     <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
                       <div className="relative overflow-hidden">
                         <img 
-                          src={related.image || '/assets/img/portfolio/placeholder.webp'} 
+                          src={related.image || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=200&fit=crop'} 
                           alt={related.title} 
                           className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"
                           loading="lazy"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=200&fit=crop';
+                          }}
                         />
                         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                           <span className="px-4 py-2 bg-white text-slate-800 rounded-lg font-medium text-sm flex items-center gap-2">

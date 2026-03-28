@@ -167,9 +167,12 @@ export default function TeamPage() {
               <div key={member.id} className="bg-gray-50 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
                 <div className="aspect-square bg-gray-200 relative">
                   <img
-                    src={member.image || '/assets/img/team/placeholder.webp'}
+                    src={member.image || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop'}
                     alt={member.name}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop';
+                    }}
                   />
                   <div className="absolute top-2 right-2 flex gap-2">
                     <button 

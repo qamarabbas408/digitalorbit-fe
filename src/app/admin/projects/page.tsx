@@ -221,7 +221,7 @@ export default function ProjectsPage() {
                   <tr key={project.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <img
-                        src={project.image || '/assets/img/portfolio/placeholder.webp'}
+                        src={project.image || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300&h=200&fit=crop'}
                         alt={project.title}
                         className="w-12 h-12 object-cover rounded-lg"
                       />
@@ -405,8 +405,20 @@ export default function ProjectsPage() {
                 </div>
 
                 <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Main Image (shown on homepage)</label>
-                  {formData.image ? (
+                  <label className="block text-sm font-medium text-gray-700 mb-1">External Image URL (Unsplash/Pexels)</label>
+                  <input
+                    type="url"
+                    value={formData.image?.startsWith('http') ? formData.image : ''}
+                    onChange={e => setFormData({ ...formData, image: e.target.value })}
+                    placeholder="https://images.unsplash.com/..."
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Paste an Unsplash or Pexels URL</p>
+                </div>
+
+                <div className="mt-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Main Image (upload)</label>
+                  {formData.image && !formData.image.startsWith('http') ? (
                     <div className="relative inline-block">
                       <img src={formData.image} alt="Preview" className="w-32 h-32 object-cover rounded-lg border border-gray-200" />
                       <button
@@ -447,7 +459,7 @@ export default function ProjectsPage() {
                     />
                   )}
                   {uploading && <p className="text-sm text-blue-600 mt-2">Uploading...</p>}
-                  {formData.image && (
+                  {formData.image && !formData.image.startsWith('http') && (
                     <label
                       htmlFor="main-image-upload"
                       className="ml-3 inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm cursor-pointer hover:bg-gray-200 transition-colors"

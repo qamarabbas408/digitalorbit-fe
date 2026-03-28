@@ -148,10 +148,13 @@ export default function Portfolio() {
                   <div className={`project-card ${project.featured ? 'featured' : ''}`}>
                     <Link href={`/portfolio/${project.id}`} className="image-wrapper">
                       <img 
-                        src={project.image || '/assets/img/portfolio/portfolio-1.webp'} 
+                        src={project.image || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop'} 
                         alt={project.title} 
                         className="img-fluid" 
-                        loading="lazy" 
+                        loading="lazy"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop';
+                        }}
                       />
                       <div className="hover-overlay">
                         <div className="overlay-actions">
